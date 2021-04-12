@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env node -r dotenv/config ./src/index.js"
+    "start": "cross-env node -r dotenv/config ./src/index.js",
+    "server:build": "babel ./src/ --out-dir ./build/",
+    "server:start": "cross-env NODE_ENV=production node ./build/index.js",
+    "server:watch": "nodemon --watch ./src/ --exec cross-env NODE_ENV=development babel-node -r dotenv/config ./src/index.js --source-maps inline"
   },
   "repository": {
     "type": "git",
@@ -17,16 +20,22 @@
   },
   "homepage": "https://github.com/ana0/meta-server#readme",
   "devDependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.15",
+    "@babel/node": "^7.13.13",
+    "@babel/preset-env": "^7.13.15",
     "cross-env": "^7.0.3",
     "eslint": "^7.24.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
+    "nodemon": "^2.0.7",
     "prettier": "^2.2.1"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "celebrate": "^14.0.0",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -35,6 +44,7 @@
     "http-status": "^1.5.0",
     "method-override": "^3.0.0",
     "sqlite": "^4.0.21",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "web3": "^1.3.5"
   }
 }

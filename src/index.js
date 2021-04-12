@@ -1,12 +1,14 @@
-const bodyParser = require("body-parser");
-const compression = require("compression");
-const cors = require("cors");
-const express = require("express");
-const helmet = require("helmet");
-const methodOverride = require("method-override");
+import bodyParser from "body-parser";
+import compression from "compression";
+import cors from "cors";
+import express from "express";
+import helmet from "helmet";
+import methodOverride from "method-override";
+
+import router from "./routes";
 
 require("./database");
-const { port } = require("./config");
+const { port, basePath } = require("./config");
 
 // Initialize express instance
 const app = express();
@@ -22,7 +24,7 @@ app.use(methodOverride());
 app.use(bodyParser.json());
 
 // Configure CORS
-const { hostname } = new URL(process.env.BASE_PATH);
+const { hostname } = new URL(basePath);
 
 app.use(
   cors({
@@ -56,6 +58,9 @@ app.use(
     },
   })
 );
+
+// Mount all routes
+app.use("/api", router);
 
 const server = app.listen(port, async (err) => {
   if (err) console.error(err);

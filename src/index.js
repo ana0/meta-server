@@ -5,8 +5,8 @@ const express = require("express");
 const helmet = require("helmet");
 const methodOverride = require("method-override");
 
-const DEFAULT_PORT = 8080;
-const port = process.env.PORT || DEFAULT_PORT;
+require("./database");
+const { port } = require("./config");
 
 // Initialize express instance
 const app = express();
@@ -57,6 +57,12 @@ app.use(
   })
 );
 
-app.listen(port, () => {
-  console.log(`Server is listening at port ${port}`);
+const server = app.listen(port, async (err) => {
+  if (err) console.error(err);
+  else console.log(`Server up on ${port}`);
+});
+
+process.on("SIGINT", () => {
+  server.close();
+  console.log("closed server");
 });

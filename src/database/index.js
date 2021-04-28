@@ -12,7 +12,7 @@ const db = new sqlite3.Database(`./${dbName}`, (err) => {
 
 db.serialize(async () => {
   db.run(
-    "CREATE TABLE IF NOT EXISTS buyers (id INTEGER PRIMARY KEY ASC, email TEXT, tokenId INTEGER, name TEXT, hash TEXT)"
+    "CREATE TABLE IF NOT EXISTS buyers (id INTEGER PRIMARY KEY ASC, email TEXT, tokenId INTEGER, address TEXT, hash TEXT)"
   );
 });
 

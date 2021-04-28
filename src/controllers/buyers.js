@@ -17,15 +17,19 @@ const saveBuyer = ({ email, address, tokenId }) => {
 };
 
 const create = (req, res) => {
+  console.log("trying to create ...");
   db.get(
     `SELECT id, address FROM buyers WHERE email == (?)`,
     [req.body.email],
     async function (err, buyer) {
-      if (err) return respondWithError(res, { message: err.message });
+      if (err) {
+        console.log(err);
+        return respondWithError(res, { message: err.message });
+      }
       if (buyer)
         return respondWithError(
           res,
-          { message: err.message },
+          { message: "Already purchased" },
           httpStatus.UNPROCESSABLE_ENTITY
         );
       if (!buyer) {

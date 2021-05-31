@@ -1,13 +1,11 @@
 import redis from "redis";
 
-import logger from "./helpers/logger";
-
 export const redisUrl = process.env.REDIS_URL || "redis://127.0.0.1:6379";
 
 const client = redis.createClient({ url: redisUrl });
 
 client.on("error", function (error) {
-  logger.error(error);
+  console.error(error);
 });
 
 export function getFromRedis(key) {

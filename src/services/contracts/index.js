@@ -21,7 +21,7 @@ export async function isContract(address) {
 }
 
 export async function isOffContract() {
-  return isContract(process.env.REACT_APP_OFF_CONTRACT);
+  return isContract(process.env.OFF_CONTRACT);
 }
 
-export const offContract = getOffContract(process.env.REACT_APP_OFF_CONTRACT);
+export const offContract = getOffContract(process.env.OFF_CONTRACT);

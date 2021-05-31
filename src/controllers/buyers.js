@@ -3,7 +3,7 @@ import httpStatus from "http-status";
 import db from "../database";
 import web3, { controller } from "../services/web3";
 import { timestamp } from "../services/math";
-import { incrementInRedis } from "../services/math";
+import { incrementInRedis } from "../services/redis";
 import { nonceName } from "../services/nonce";
 import { getMessageHash } from "../services/contracts/off";
 import { respondWithSuccess, respondWithError } from "../helpers/respond";

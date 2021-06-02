@@ -21,8 +21,7 @@ const saveBuyer = ({ email, address, tokenId }) => {
   });
 };
 
-const generateAuth = async (user, tokenId, issuingTime) => {
-  const nonce = await incrementInRedis(nonceName);
+const generateAuth = async (user, tokenId, issuingTime, nonce) => {
   const msg = await getMessageHash(user, tokenId, issuingTime, nonce);
   return web3.eth.accounts.sign(msg, controller.privateKey).signature;
 };
@@ -46,14 +45,18 @@ const create = (req, res) => {
       } else {
         await saveBuyer(req.body);
         const issuingTime = timestamp();
+        const nonce = await incrementInRedis(nonceName);
         try {
           const auth = await generateAuth(
             req.body.address,
             req.body.tokenId,
-            issuingTime
+            issuingTime,
+            nonce
           );
           return respondWithSuccess(res, {
             auth,
+            issuingTime,
+            nonce,
           });
         } catch (err) {
           console.log(err);

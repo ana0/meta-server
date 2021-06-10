@@ -1,19 +1,14 @@
-const sqlite3 = require("sqlite3").verbose();
+import Sequelize from "sequelize";
 
-const { dbName } = require("../config.js");
+import config from "./config";
 
-const db = new sqlite3.Database(`./${dbName}`, (err) => {
-  if (err) {
-    console.error(err.message);
-    return;
-  }
-  console.log("Connected to sqlite database.");
+export default new Sequelize(config.url, {
+  dialect: config.dialect,
+  logging: (msg) => {
+    console.log(msg);
+  },
 });
 
-db.serialize(async () => {
-  db.run(
-    "CREATE TABLE IF NOT EXISTS buyers (id INTEGER PRIMARY KEY ASC, email TEXT, tokenId INTEGER, address TEXT, hash TEXT)"
-  );
-});
-
-module.exports = db;
+Sequelize.postgres.DECIMAL.parse = function (value) {
+  return parseFloat(value);
+};

@@ -6,9 +6,20 @@ import helmet from "helmet";
 import methodOverride from "method-override";
 
 import router from "./routes";
+import db from "./database";
 
-require("./database");
+//require("./database");
 const { port, basePath } = require("./config");
+
+// Check database connection
+db.authenticate()
+  .then(() => {
+    console.log("Database connection has been established successfully");
+  })
+  .catch(() => {
+    console.log("Unable to connect to database");
+    process.exit(1);
+  });
 
 // Initialize express instance
 const app = express();

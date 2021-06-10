@@ -4,6 +4,10 @@ export async function getTokenUri(tokenId) {
   return await offContract.methods.tokenURI(tokenId).call();
 }
 
+export async function getOwner(tokenId) {
+  return await offContract.methods.ownerOf(tokenId).call();
+}
+
 export async function getToken(tokenId) {
   const token = await offContract.methods.getToken(tokenId).call();
   return {
@@ -13,6 +17,10 @@ export async function getToken(tokenId) {
     imageHash: token[3],
     owner: token[4],
   };
+}
+
+export async function isForSale(tokenId) {
+  return await offContract.methods.forSale(tokenId).call();
 }
 
 export async function getMessageHash(user, tokenId, issuingTime, nonce) {

@@ -43,6 +43,7 @@
     "prettier": "^2.2.1"
   },
   "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.14.5",
     "body-parser": "^1.19.0",
     "bull": "^3.22.8",
     "celebrate": "^14.0.0",

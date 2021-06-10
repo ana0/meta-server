@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env node -r dotenv/config ./src/index.js",
+    "start": "npm run server:watch",
+    "build": "babel ./src --out-dir ./build",
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
     "db:new-migration": "./node_modules/.bin/sequelize-cli migration:generate --name",

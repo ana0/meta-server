@@ -35,7 +35,7 @@ app.use(methodOverride());
 app.use(bodyParser.json());
 
 // Configure CORS
-const { hostname } = new URL(basePath);
+const { hostname } = new URL("https://off.supply");
 
 app.use(
   cors({

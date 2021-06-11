@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../database";
 
-const Prospective = db.define("prospective", {
+const Expired = db.define("expired", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -22,4 +22,4 @@ const Prospective = db.define("prospective", {
   },
 });
 
-export default Prospective;
+export default Expired;

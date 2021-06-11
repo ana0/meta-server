@@ -10,13 +10,20 @@ import submitJob from "../tasks/submitJob";
 import checkOnProspectives from "../tasks/checkOnProspectives";
 
 import Prospective from "../models/prospective";
+import Buyer from "../models/buyer";
 
 const countProspectives = async (email) => {
-  return Prospective.count({
+  const prospectives = await Prospective.count({
     where: {
       email,
     },
   });
+  const buyers = await Buyer.count({
+    where: {
+      email,
+    },
+  });
+  return buyers + prospectives;
 };
 
 const saveProspective = async ({ email, address, tokenId, hash }) => {
@@ -33,7 +40,7 @@ const create = async (req, res) => {
 
   try {
     const count = await countProspectives(req.body.email);
-    if (count >= 2) {
+    if (count >= 5) {
       return respondWithError(
         res,
         { message: "Purchase limit exceeded" },

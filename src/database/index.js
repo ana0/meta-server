@@ -5,7 +5,7 @@ import config from "./config";
 export default new Sequelize(config.url, {
   dialect: config.dialect,
   logging: (msg) => {
-    console.log(msg);
+    //console.log(msg);
   },
 });
 

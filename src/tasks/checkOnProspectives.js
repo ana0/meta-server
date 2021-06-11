@@ -5,6 +5,7 @@ import { redisUrl, redisLongRunningOptions } from "../services/redis";
 import { getOwner } from "../services/contracts/off";
 import Prospective from "../models/prospective";
 import Buyer from "../models/buyer";
+import Expired from "../models/expired";
 import { dateToTimestamp, timestamp } from "../services/math";
 
 const checkOnProspectives = new Queue("Check on prospectives", redisUrl, {
@@ -22,6 +23,11 @@ processor(checkOnProspectives).process(async ({ data }) => {
       address: prospect.address,
       email: prospect.email,
     });
+    await Expired.create({
+      tokenId: prospect.tokenId,
+      address: prospect.address,
+      email: prospect.email,
+    });
     await Prospective.destroy({ where: { id: prospect.id } });
     return true;
   } else if (
@@ -29,6 +35,11 @@ processor(checkOnProspectives).process(async ({ data }) => {
     1300
   ) {
     console.log("Expired");
+    await Expired.create({
+      tokenId: prospect.tokenId,
+      address: prospect.address,
+      email: prospect.email,
+    });
     await Prospective.destroy({ where: { id: prospect.id } });
   } else {
     console.log("Has not resolved");

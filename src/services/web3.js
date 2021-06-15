@@ -1,7 +1,12 @@
 import Web3 from "web3";
-const { ethereumNodeWs, controllerPrivateKey } = require("../config");
+const {
+  //ethereumNodeWs,
+  ethereumNode,
+  controllerPrivateKey,
+} = require("../config");
 
-export const provider = new Web3.providers.WebsocketProvider(ethereumNodeWs);
+//export const provider = new Web3.providers.WebsocketProvider(ethereumNodeWs);
+export const provider = new Web3.providers.HttpProvider(ethereumNode);
 
 const web3 = new Web3(provider);
 

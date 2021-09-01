@@ -1,3 +1,4 @@
+import path from "path";
 import bodyParser from "body-parser";
 import compression from "compression";
 import cors from "cors";
@@ -8,7 +9,8 @@ import methodOverride from "method-override";
 import router from "./routes";
 import db from "./database";
 
-//require("./database");
+const imagesDir = path.join(__dirname, "static");
+
 const { port, basePath } = require("./config");
 
 // Check database connection
@@ -69,6 +71,8 @@ app.use(
     },
   })
 );
+
+app.use('/static', express.static(imagesDir))
 
 // Mount all routes
 app.use("/api", router);

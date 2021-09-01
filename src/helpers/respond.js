@@ -11,6 +11,10 @@ export function respondWithSuccess(res, data, status = httpStatus.OK) {
   respond(res, "ok", { data }, status);
 }
 
+export function respondWithSuccessJson(res, data, status = httpStatus.OK) {
+  respond(res, "ok", data, status);
+}
+
 export function respondWithError(
   res,
   data,

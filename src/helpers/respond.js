@@ -7,12 +7,17 @@ function respond(res, status, data, code) {
   });
 }
 
-export function respondWithSuccess(res, data, status = httpStatus.OK) {
-  respond(res, "ok", { data }, status);
-}
-
-export function respondWithSuccessJson(res, data, status = httpStatus.OK) {
-  respond(res, "ok", data, status);
+export function respondWithSuccess(
+  res,
+  data,
+  status = httpStatus.OK,
+  nest = true
+) {
+  if (nest) {
+    respond(res, "ok", { data }, status);
+  } else {
+    respond(res, "ok", data, status);
+  }
 }
 
 export function respondWithError(

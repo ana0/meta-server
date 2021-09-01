@@ -7,19 +7,34 @@ import metadata3 from "../static/3.json";
 
 const get = async (req, res) => {
   if (req.params.id === "1") {
-    return respondWithSuccess(res, {
-      ...metadata1,
-    });
+    return respondWithSuccess(
+      res,
+      {
+        ...metadata1,
+      },
+      httpStatus.OK,
+      false
+    );
   }
   if (req.params.id === "2") {
-    return respondWithSuccess(res, {
-      ...metadata2,
-    });
+    return respondWithSuccess(
+      res,
+      {
+        ...metadata2,
+      },
+      httpStatus.OK,
+      false
+    );
   }
   if (req.params.id === "3") {
-    return respondWithSuccess(res, {
-      ...metadata3,
-    });
+    return respondWithSuccess(
+      res,
+      {
+        ...metadata3,
+      },
+      httpStatus.OK,
+      false
+    );
   }
   return respondWithError(res, httpStatus.NOT_FOUND);
 };

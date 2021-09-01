@@ -72,7 +72,7 @@ app.use(
   })
 );
 
-app.use('/static', express.static(imagesDir))
+app.use("/api/static", express.static(imagesDir));
 
 // Mount all routes
 app.use("/api", router);

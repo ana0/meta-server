@@ -37,11 +37,12 @@ app.use(methodOverride());
 app.use(bodyParser.json());
 
 // Configure CORS
-const { hostname } = new URL("https://off.supply");
+const { offHostname } = new URL("https://off.supply");
+const { lifeformsHostname } = new URL("https://lifeforms.supply");
 
 app.use(
   cors({
-    origin: [hostname, new RegExp(`.${hostname}`, "i")],
+    origin: [offHostname, new RegExp(`.${offHostname}`, lifeformsHostname, new RegExp(`.${lifeformsHostname}`, "i")],
     allowedHeaders: [
       "Authorization",
       "Content-Length",

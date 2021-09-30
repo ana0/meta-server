@@ -20,6 +20,9 @@ const Prospective = db.define("prospective", {
   address: {
     type: DataTypes.STRING,
   },
+  country: {
+    type: DataTypes.STRING,
+  },
 });
 
 export default Prospective;

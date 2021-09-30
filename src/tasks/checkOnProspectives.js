@@ -17,16 +17,18 @@ processor(checkOnProspectives).process(async ({ data }) => {
     where: { address: data.address, tokenId: data.tokenId },
   });
   const owner = await getOwner(data.tokenId);
-  if (owner === data.address) {
+  if (owner.toLowerCase() === data.address.toLowerCase()) {
     await Buyer.create({
       tokenId: prospect.tokenId,
       address: prospect.address,
       email: prospect.email,
+      country: prospect.country,
     });
     await Expired.create({
       tokenId: prospect.tokenId,
       address: prospect.address,
       email: prospect.email,
+      country: prospect.country,
     });
     await Prospective.destroy({ where: { id: prospect.id } });
     return true;

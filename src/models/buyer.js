@@ -20,6 +20,9 @@ const Buyer = db.define("buyer", {
   address: {
     type: DataTypes.STRING,
   },
+  country: {
+    type: DataTypes.STRING,
+  },
 });
 
 export default Buyer;

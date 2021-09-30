@@ -26,8 +26,8 @@ const countProspectives = async (email) => {
   return buyers + prospectives;
 };
 
-const saveProspective = async ({ email, address, tokenId, hash }) => {
-  return Prospective.create({ email, address, tokenId, hash });
+const saveProspective = async ({ email, address, tokenId, country }) => {
+  return Prospective.create({ email, address, tokenId, country });
 };
 
 const generateAuth = async (user, tokenId, issuingTime, nonce) => {

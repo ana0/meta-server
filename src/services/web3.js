@@ -18,4 +18,6 @@ export const controller = web3.eth.accounts.privateKeyToAccount(
   controllerPrivateKey
 );
 
+export const { BN } = web3.utils;
+
 export default web3;

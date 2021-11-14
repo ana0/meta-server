@@ -39,7 +39,6 @@ app.use(bodyParser.json());
 // Configure CORS
 const off = new URL("https://off.supply");
 const lifeforms = new URL("https://lifeforms.supply");
-const dev = new URL("http://localhost:3000");
 
 app.use(
   cors({
@@ -48,8 +47,6 @@ app.use(
       new RegExp(`.${off.hostname}`, "i"),
       lifeforms.hostname,
       new RegExp(`.${lifeforms.hostname}`, "i"),
-      dev.hostname,
-      new RegExp(`.${dev.hostname}`, "i"),
     ],
     allowedHeaders: [
       "Authorization",

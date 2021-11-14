@@ -10,6 +10,7 @@ const images = [
   "https://isthisa.computer/api/static/images/purple.jpg",
   "https://isthisa.computer/api/static/images/red.jpg",
   "https://isthisa.computer/api/static/images/yellow.jpg",
+  "https://isthisa.computer/api/static/images/orange.jpg",
 ];
 
 const normalize = (val, max, min) => {

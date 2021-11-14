@@ -8,6 +8,8 @@ import metadata1 from "../static/1.json";
 import metadata2 from "../static/2.json";
 import metadata3 from "../static/3.json";
 
+const ZERO_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
+
 const get = async (req, res) => {
   if (req.params.id === "1") {
     return respondWithSuccess(
@@ -60,7 +62,7 @@ const get = async (req, res) => {
 };
 
 const count = async (req, res) => {
-  const num = await Lifeform.count();
+  const num = await Lifeform.max("tokenId");
   return respondWithSuccess(
     res,
     {
@@ -74,6 +76,15 @@ const count = async (req, res) => {
 const mint = async (req, res) => {
   const tokenId = req.body.tokenId;
   const seed = await getSeed(tokenId);
+  if (seed === ZERO_HASH) {
+    return respondWithError(res, httpStatus.NOT_FOUND);
+  }
+  const exists = await Lifeform.findOne({
+    where: { tokenId },
+  });
+  if (exists) {
+    return respondWithError(res, httpStatus.CONFLICT);
+  }
   const lifeform = {
     tokenId,
     name: `Lifeform #${tokenId}`,

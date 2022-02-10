@@ -2,17 +2,32 @@ import Queue from "bull";
 
 import processor from "./processor";
 import { redisUrl, redisLongRunningOptions } from "../services/redis";
-import { getOwner } from "../services/contracts/lifeforms";
+import { getLifeform } from "../services/contracts/lifeforms";
+import dispatch from "../services/dispatch";
 import Lifeform from "../models/lifeform";
+import { gravediggerPrivKey } from "../config";
+import { getLifeformsContract } from "../services/contracts";
 
-const checkOnProspectives = new Queue("Check on prospectives", redisUrl, {
+const digGraves = new Queue("Dig graves", redisUrl, {
   settings: redisLongRunningOptions,
 });
 
-processor(checkOnProspectives).process(async ({ data }) => {
-  const form = await Lifeform.findById(data.tokenId);
-  const owner = await getOwner(data.tokenId);
-
+processor(digGraves).process(async ({ data }) => {
+  const contract = getLifeformsContract();
+  const contractForm = await getLifeform(data.tokenId);
+  if (contractForm.tokenURI === "" || contractForm.tokenBirth === 0) {
+    await dispatch(
+      contract,
+      "gravediggerCleanup",
+      [data.tokenId],
+      gravediggerPrivKey
+    );
+    await Lifeform.destroy({
+      where: {
+        tokenId: data.tokenId,
+      },
+    });
+  }
 });
 
-export default checkOnProspectives;
+export default digGraves;

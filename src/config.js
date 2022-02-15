@@ -11,6 +11,8 @@ const controllerPrivateKey = process.env.CONTROLLER;
 
 const basePath = process.env.BASE_PATH;
 
+const gravediggerPrivKey = process.env.GRAVEDIGGER_PRIV_KEY;
+
 module.exports = {
   port,
   dbName,
@@ -18,4 +20,5 @@ module.exports = {
   controllerPrivateKey,
   ethereumNodeWs,
   ethereumNode,
+  gravediggerPrivKey,
 };

@@ -4,6 +4,8 @@ import submitJob from "./tasks/submitJob";
 
 const CRON_NIGHTLY = "0 0 0 * * *";
 
+const CRON_MINUTETLY = "0 * * * * *";
+
 // Check database connection
 db.authenticate()
   .then(() => {
@@ -11,6 +13,11 @@ db.authenticate()
     submitJob(tasks.cleanup, "cleanUp-nightly", null, {
       repeat: {
         cron: CRON_NIGHTLY,
+      },
+    });
+    submitJob(tasks.spawnGravediggers, "spawn-nightly", null, {
+      repeat: {
+        cron: CRON_MINUTETLY,
       },
     });
   })

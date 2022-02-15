@@ -10,6 +10,14 @@ export async function getSeed(tokenId) {
   return await lifeformsContract.methods.getSeed(tokenId).call();
 }
 
+export async function getGravedigger() {
+  return await lifeformsContract.methods.gravedigger().call();
+}
+
+export async function gravediggerCleanup(tokenId) {
+  await lifeformsContract.methods.gravediggerCleanup(tokenId).send();
+}
+
 export async function getLifeform(tokenId) {
   const lifeform = await lifeformsContract.methods.getLifeform(tokenId).call();
   return {

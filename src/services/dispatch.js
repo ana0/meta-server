@@ -7,6 +7,7 @@ export default async function dispatch(contract, methodName, args, key) {
 
   const from = keyObject.address;
   const to = contract.options.address;
+
   const gas = await web3.eth.estimateGas({
     to,
     data,

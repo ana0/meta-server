@@ -17,7 +17,7 @@ db.authenticate()
     });
     submitJob(tasks.spawnGravediggers, "spawn-nightly", null, {
       repeat: {
-        cron: CRON_MINUTETLY,
+        cron: CRON_NIGHTLY,
       },
     });
   })

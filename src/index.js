@@ -39,7 +39,7 @@ app.use(bodyParser.json());
 // Configure CORS
 const off = new URL("https://off.supply");
 const lifeforms = new URL("https://lifeforms.supply");
-const dev = new URL("http://localhost:3000");
+//const dev = new URL("http://localhost:3000");
 
 app.use(
   cors({

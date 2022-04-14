@@ -11,6 +11,7 @@ import checkOnProspectives from "../tasks/checkOnProspectives";
 
 import Prospective from "../models/prospective";
 import Buyer from "../models/buyer";
+import Burned from "../models/burned";
 
 const countProspectives = async (email) => {
   const prospectives = await Prospective.count({
@@ -33,6 +34,18 @@ const saveProspective = async ({ email, address, tokenId, country }) => {
 const generateAuth = async (user, tokenId, issuingTime, nonce) => {
   const msg = await getMessageHash(user, tokenId, issuingTime, nonce);
   return web3.eth.accounts.sign(msg, controller.privateKey).signature;
+};
+
+const count = async (req, res) => {
+  const num = await Burned.max("tokenId");
+  return respondWithSuccess(
+    res,
+    {
+      count: num,
+    },
+    httpStatus.OK,
+    false
+  );
 };
 
 const create = async (req, res) => {
@@ -78,4 +91,5 @@ const create = async (req, res) => {
 
 export default {
   create,
+  count
 };

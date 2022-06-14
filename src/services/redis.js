@@ -1,6 +1,8 @@
 import redis from "redis";
 
-export const redisUrl = process.env.REDIS_URL || "redis://127.0.0.1:6379";
+export const redisUrl =
+  process.env.REDIS_URL ||
+  `redis://:${process.env.REDIS_PASSWORD}@127.0.0.1:6379`;
 
 const client = redis.createClient({ url: redisUrl });
 

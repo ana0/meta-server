@@ -3,6 +3,7 @@ import httpStatus from "http-status";
 
 import buyersRouter from "./buyers";
 import lifeformsRouter from "./lifeforms";
+import wildcardsRouter from "./wildcards";
 import { respondWithSuccess } from "../helpers/respond";
 import APIError from "../helpers/errors";
 
@@ -13,6 +14,8 @@ router.get("/", (req, res) => {
 });
 
 router.use("/buyers", buyersRouter);
+
+router.use("/wildcards", wildcardsRouter);
 
 router.use("/lifeforms", lifeformsRouter);
 

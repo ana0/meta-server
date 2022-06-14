@@ -1,24 +1,29 @@
 import OffContract from "off-contracts/build/contracts/Off.json";
 import LifeformsContract from "lifeforms-contracts/build/contracts/Lifeforms2.json";
+import WildcardsContract from "wildcards-contracts/build/contracts/Wildcards.json";
 
-import web3 from "../web3";
+import { polygonWeb3, ethereumWeb3 } from "../web3";
 
 // Utility methods to get contracts
 
-function getContract(abi, address) {
-  return new web3.eth.Contract(abi, address);
+function getContract(abi, address, network) {
+  return new network.eth.Contract(abi, address);
 }
 
 export function getOffContract(address) {
-  return getContract(OffContract.abi, address);
+  return getContract(OffContract.abi, address, polygonWeb3);
 }
 
 export function getLifeformsContract(address) {
-  return getContract(LifeformsContract.abi, address);
+  return getContract(LifeformsContract.abi, address, polygonWeb3);
 }
 
-export async function isContract(address) {
-  const code = await web3.eth.getCode(address);
+export function getWildcardsContract(address) {
+  return getContract(WildcardsContract.abi, address, ethereumWeb3);
+}
+
+export async function isContract(address, network) {
+  const code = await network.eth.getCode(address);
   // A valid contract is a string with `0x` as a prefix. If no other characters
   // follow the prefix it is an invalid contract.
   if (/^0x.+/.test(code)) return true;
@@ -26,15 +31,23 @@ export async function isContract(address) {
 }
 
 export async function isOffContract() {
-  return isContract(process.env.OFF_CONTRACT);
+  return isContract(process.env.OFF_CONTRACT, polygonWeb3);
 }
 
 export async function isLifeformsContract() {
-  return isContract(process.env.LIFEFORMS_CONTRACT);
+  return isContract(process.env.LIFEFORMS_CONTRACT, polygonWeb3);
+}
+
+export async function isWildcardssContract() {
+  return isContract(process.env.WILDCARDS_CONTRACT, ethereumWeb3);
 }
 
 export const offContract = getOffContract(process.env.OFF_CONTRACT);
 
 export const lifeformsContract = getLifeformsContract(
   process.env.LIFEFORMS_CONTRACT
+);
+
+export const wildcardsContract = getWildcardsContract(
+  process.env.WILDCARDS_CONTRACT
 );

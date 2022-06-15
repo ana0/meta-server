@@ -18,7 +18,7 @@ module.exports = {
             image: `https://isthisa.computer/api/static/images/${row.name.replace(
               / /g,
               "-"
-            )}`,
+            )}.jpg`,
           });
         })
         .on("end", () => {

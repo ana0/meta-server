@@ -2,7 +2,7 @@ import Queue from "bull";
 
 import processor from "./processor";
 import { redisUrl, redisLongRunningOptions } from "../services/redis";
-import { getLifeform, getGravedigger } from "../services/contracts/lifeforms";
+import { getLifeform } from "../services/contracts/lifeforms";
 import dispatch from "../services/dispatch";
 import Lifeform from "../models/lifeform";
 import { gravediggerPrivKey } from "../config";

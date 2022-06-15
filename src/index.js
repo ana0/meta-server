@@ -48,8 +48,8 @@ app.use(
       new RegExp(`.${off.hostname}`, "i"),
       lifeforms.hostname,
       new RegExp(`.${lifeforms.hostname}`, "i"),
-      // dev.hostname,
-      // new RegExp(`.${dev.hostname}`, "i"),
+      dev.hostname,
+      new RegExp(`.${dev.hostname}`, "i"),
     ],
     allowedHeaders: [
       "Authorization",

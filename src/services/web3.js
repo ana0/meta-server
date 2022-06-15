@@ -1,23 +1,35 @@
 import Web3 from "web3";
 const {
   //ethereumNodeWs,
+  polygonNode,
   ethereumNode,
-  controllerPrivateKey,
+  offControllerPrivateKey,
+  wildcardsControllerPrivateKey,
 } = require("../config");
 
 //export const provider = new Web3.providers.WebsocketProvider(ethereumNodeWs);
-export const provider = new Web3.providers.HttpProvider(ethereumNode);
+export const polygonProvider = new Web3.providers.HttpProvider(polygonNode);
 
-const web3 = new Web3(provider);
+const polygonWeb3 = new Web3(polygonProvider);
+
+export const ethereumProvider = new Web3.providers.HttpProvider(ethereumNode);
+
+const ethereumWeb3 = new Web3(ethereumProvider);
 
 export async function checkConnection() {
-  return (await web3.eth.getBlock("latest")).number;
+  const polygonTop = await polygonWeb3.eth.getBlock("latest");
+  const ethereumTop = await ethereumWeb3.eth.getBlock("latest");
+  return polygonTop.number && ethereumTop.number;
 }
 
-export const controller = web3.eth.accounts.privateKeyToAccount(
-  controllerPrivateKey
+export const offController = polygonWeb3.eth.accounts.privateKeyToAccount(
+  offControllerPrivateKey
 );
 
-export const { BN } = web3.utils;
+export const wildcardsController = ethereumWeb3.eth.accounts.privateKeyToAccount(
+  wildcardsControllerPrivateKey
+);
 
-export default web3;
+export const { BN } = polygonWeb3.utils;
+
+export { polygonWeb3, ethereumWeb3 };

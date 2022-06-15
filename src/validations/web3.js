@@ -1,6 +1,6 @@
 import { Joi } from "celebrate";
 
-import web3 from "../services/web3";
+import { polygonWeb3 } from "../services/web3";
 
 export default Joi.extend((joi) => {
   return {
@@ -15,7 +15,7 @@ export default Joi.extend((joi) => {
     rules: {
       address: {
         validate(value, helpers) {
-          if (!value || !web3.utils.isAddress(value)) {
+          if (!value || !polygonWeb3.utils.isAddress(value)) {
             return helpers.error("web3.address");
           }
 
@@ -24,7 +24,7 @@ export default Joi.extend((joi) => {
       },
       addressChecksum: {
         validate(value, helpers) {
-          if (!value || !web3.utils.checkAddressChecksum(value)) {
+          if (!value || !polygonWeb3.utils.checkAddressChecksum(value)) {
             return helpers.error("web3.addressChecksum");
           }
 
@@ -33,7 +33,11 @@ export default Joi.extend((joi) => {
       },
       sha3: {
         validate(value, helpers) {
-          if (!value || !web3.utils.isHexStrict(value) || value.length !== 66) {
+          if (
+            !value ||
+            !polygonWeb3.utils.isHexStrict(value) ||
+            value.length !== 66
+          ) {
             return helpers.error("web3.sha3");
           }
 
@@ -44,7 +48,7 @@ export default Joi.extend((joi) => {
         validate(value, helpers) {
           if (
             !value ||
-            !web3.utils.isHexStrict(value) ||
+            !polygonWeb3.utils.isHexStrict(value) ||
             value.length !== 132
           ) {
             return helpers.error("web3.signature");

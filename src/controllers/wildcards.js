@@ -28,12 +28,12 @@ const create = async (req, res) => {
         httpStatus.UNPROCESSABLE_ENTITY
       );
     } else {
-      const nonce = await incrementInRedis(wildcardsNonceName);
-      const auth = await generateAuth(
-        req.body.signature,
-        mintcode.tokenId,
-        nonce
+      const user = ethereumWeb3.eth.accounts.recover(
+        req.body.mintcode,
+        req.body.signature
       );
+      const nonce = await incrementInRedis(wildcardsNonceName);
+      const auth = await generateAuth(user, mintcode.tokenId, nonce);
       return respondWithSuccess(res, {
         auth,
         tokenId: mintcode.tokenId,

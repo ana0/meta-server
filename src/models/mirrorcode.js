@@ -2,23 +2,20 @@ import { DataTypes } from "sequelize";
 
 import db from "../database";
 
-const Wildcard = db.define("wildcard", {
+const MirrorCode = db.define("mirrorcode", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  tokenId: {
-    type: DataTypes.INTEGER,
+  address: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  description: {
-    type: DataTypes.STRING,
-  },
-  image: {
+  mintcode: {
     type: DataTypes.STRING,
   },
 });
 
-export default Wildcard;
+export default MirrorCode;

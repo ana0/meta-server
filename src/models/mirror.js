@@ -2,15 +2,15 @@ import { DataTypes } from "sequelize";
 
 import db from "../database";
 
-const Wildcard = db.define("wildcard", {
+const Mirror = db.define("mirror", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  tokenId: {
-    type: DataTypes.INTEGER,
+  name: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
   description: {
@@ -21,4 +21,4 @@ const Wildcard = db.define("wildcard", {
   },
 });
 
-export default Wildcard;
+export default Mirror;

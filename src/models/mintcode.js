@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 import db from "../database";
 
-const Buyer = db.define("mintcode", {
+const MintCode = db.define("mintcode", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -18,4 +18,4 @@ const Buyer = db.define("mintcode", {
   },
 });
 
-export default Buyer;
+export default MintCode;

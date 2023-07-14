@@ -9,6 +9,7 @@
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
     "db:new-migration": "./node_modules/.bin/sequelize-cli migration:generate --name",
+    "db:migrate-down": "./node_modules/.bin/sequelize-cli db:migrate:undo",
     "server:build": "babel ./src/ --out-dir ./build/",
     "server:start": "cross-env NODE_ENV=production node ./build/index.js",
     "server:watch": "nodemon --watch ./src/ --exec cross-env NODE_ENV=development babel-node -r dotenv/config ./src/index.js --source-maps inline",

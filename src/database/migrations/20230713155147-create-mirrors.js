@@ -13,14 +13,6 @@ module.exports = {
       updatedAt: {
         type: Sequelize.DATE,
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      tokenId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
       description: {
         type: Sequelize.STRING,
       },

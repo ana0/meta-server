@@ -4,6 +4,7 @@ import httpStatus from "http-status";
 import buyersRouter from "./buyers";
 import lifeformsRouter from "./lifeforms";
 import wildcardsRouter from "./wildcards";
+import mirrorsRouter from "./mirrors";
 import { respondWithSuccess } from "../helpers/respond";
 import APIError from "../helpers/errors";
 
@@ -18,6 +19,8 @@ router.use("/buyers", buyersRouter);
 router.use("/wildcards", wildcardsRouter);
 
 router.use("/lifeforms", lifeformsRouter);
+
+router.use("/mirrors", mirrorsRouter);
 
 router.use(() => {
   throw new APIError(httpStatus.NOT_FOUND);

@@ -1,6 +1,7 @@
 import OffContract from "off-contracts/build/contracts/Off.json";
 import LifeformsContract from "lifeforms-contracts/build/contracts/Lifeforms2.json";
 import WildcardsContract from "wildcards-contracts/build/contracts/Wildcards.json";
+import MirrorsContract from "mirror-piece-contracts/build/contracts/MirrorPiece.json";
 
 import { polygonWeb3, ethereumWeb3 } from "../web3";
 
@@ -20,6 +21,10 @@ export function getLifeformsContract(address) {
 
 export function getWildcardsContract(address) {
   return getContract(WildcardsContract.abi, address, ethereumWeb3);
+}
+
+export function getMirrorsContract(address) {
+  return getContract(MirrorsContract.abi, address, polygonWeb3);
 }
 
 export async function isContract(address, network) {
@@ -42,6 +47,10 @@ export async function isWildcardssContract() {
   return isContract(process.env.WILDCARDS_CONTRACT, ethereumWeb3);
 }
 
+export async function isMirrorsContract() {
+  return isContract(process.env.MIRROR_CONTRACT, polygonWeb3);
+}
+
 export const offContract = getOffContract(process.env.OFF_CONTRACT);
 
 export const lifeformsContract = getLifeformsContract(
@@ -51,3 +60,5 @@ export const lifeformsContract = getLifeformsContract(
 export const wildcardsContract = getWildcardsContract(
   process.env.WILDCARDS_CONTRACT
 );
+
+export const mirrorsContract = getMirrorsContract(process.env.MIRROR_CONTRACT);

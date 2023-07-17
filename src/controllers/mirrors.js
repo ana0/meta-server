@@ -20,6 +20,13 @@ const create = async (req, res) => {
         httpStatus.UNPROCESSABLE_ENTITY
       );
     } else {
+      if (mintcode.minted) {
+        return respondWithError(
+          res,
+          { message: "Already minted" },
+          httpStatus.CONFLICT
+        );
+      }
       submitJob(mintMirrors, `${mintcode.mintcode}`, {
         mintcode: mintcode.mintcode,
         address: mintcode.address,

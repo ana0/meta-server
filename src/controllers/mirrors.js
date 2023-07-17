@@ -1,10 +1,12 @@
 import httpStatus from "http-status";
+import { ethers } from "ethers";
 
 import { respondWithSuccess, respondWithError } from "../helpers/respond";
 import Mirror from "../models/mirror";
 import MirrorCode from "../models/mirrorcode";
 import submitJob from "../tasks/submitJob";
 import mintMirrors from "../tasks/mintMirrors";
+import { checkMintcode } from "../services/contracts/lifeforms";
 
 const create = async (req, res) => {
   console.log("trying to create ...");
@@ -20,7 +22,8 @@ const create = async (req, res) => {
         httpStatus.UNPROCESSABLE_ENTITY
       );
     } else {
-      if (mintcode.minted) {
+      const valid = await checkMintcode(ethers.solidityPackedKeccak256(["string"], [mintcode.mintcode]);
+      if (!valid) {
         return respondWithError(
           res,
           { message: "Already minted" },
@@ -31,7 +34,10 @@ const create = async (req, res) => {
         mintcode: mintcode.mintcode,
         address: mintcode.address,
       });
-      return respondWithSuccess(res, { minted: true });
+      return respondWithSuccess(res, {
+        account: mintcode.address,
+        mintcodeId: mintcode.id
+      });
     }
   } catch (err) {
     console.log(err);

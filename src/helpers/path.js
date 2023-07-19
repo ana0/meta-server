@@ -9,5 +9,5 @@ export function getBuildPath(filePath) {
 }
 
 export function getPath(filePath) {
-  return path.resolve(__dirname, "..", "..", "..", filePath);
+  return path.resolve(__dirname, "..", "..", filePath);
 }

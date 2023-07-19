@@ -16,6 +16,9 @@ const MirrorCode = db.define("mirrorcode", {
   mintcode: {
     type: DataTypes.STRING,
   },
+  email: {
+    type: DataTypes.STRING,
+  },
 });
 
 export default MirrorCode;

@@ -6,7 +6,7 @@ import Mirror from "../models/mirror";
 import MirrorCode from "../models/mirrorcode";
 import submitJob from "../tasks/submitJob";
 import mintMirrors from "../tasks/mintMirrors";
-import { checkMintcode } from "../services/contracts/lifeforms";
+import { checkMintcode } from "../services/contracts/mirrors";
 
 const create = async (req, res) => {
   console.log("trying to create ...");
@@ -22,7 +22,9 @@ const create = async (req, res) => {
         httpStatus.UNPROCESSABLE_ENTITY
       );
     } else {
-      const valid = await checkMintcode(ethers.solidityPackedKeccak256(["string"], [mintcode.mintcode]);
+      const valid = await checkMintcode(
+        ethers.solidityPackedKeccak256(["string"], [mintcode.mintcode])
+      );
       if (!valid) {
         return respondWithError(
           res,
@@ -34,9 +36,11 @@ const create = async (req, res) => {
         mintcode: mintcode.mintcode,
         address: mintcode.address,
       });
+      mintcode.email = req.body.email;
+      await mintcode.save();
       return respondWithSuccess(res, {
         account: mintcode.address,
-        mintcodeId: mintcode.id
+        mintcodeId: mintcode.id,
       });
     }
   } catch (err) {
@@ -65,36 +69,6 @@ const get = async (req, res) => {
   }
   return respondWithError(res, httpStatus.NOT_FOUND);
 };
-
-// const mint = async (req, res) => {
-//   const tokenId = req.body.tokenId;
-//   const seed = await getSeed(tokenId);
-//   if (seed === ZERO_HASH) {
-//     return respondWithError(res, httpStatus.NOT_FOUND);
-//   }
-//   const exists = await Lifeform.findOne({
-//     where: { tokenId },
-//   });
-//   if (exists) {
-//     return respondWithError(res, httpStatus.CONFLICT);
-//   }
-//   const lifeform = {
-//     tokenId,
-//     name: `Lifeform #${tokenId}`,
-//     description: generateName(seed),
-//     image: chooseImage(seed),
-//   };
-//   await Lifeform.create(lifeform);
-//   return respondWithSuccess(
-//     res,
-//     {
-//       seed,
-//       ...lifeform,
-//     },
-//     httpStatus.OK,
-//     false
-//   );
-// };
 
 export default {
   get,

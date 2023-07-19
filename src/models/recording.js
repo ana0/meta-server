@@ -23,10 +23,6 @@ const Recording = db.define("recording", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  location: {
-    type: DataTypes.GEOGRAPHY("POINT", 4326),
-    allowNull: true,
-  },
   mirrorcodeId: {
     type: DataTypes.INTEGER,
     allowNull: true,

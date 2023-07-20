@@ -10,7 +10,11 @@ module.exports = {
         .pipe(csv())
         .on("data", (row) => {
           console.log(row);
-          codes.push({ ...row, createdAt: new Date(), updatedAt: new Date() });
+          let r = {
+            mintcode: row.mintcode,
+            address: row.address,
+          };
+          codes.push({ ...r, createdAt: new Date(), updatedAt: new Date() });
         })
         .on("end", () => {
           console.log("CSV file successfully processed");

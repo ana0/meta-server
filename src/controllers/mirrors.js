@@ -51,7 +51,7 @@ const create = async (req, res) => {
 
 const get = async (req, res) => {
   const mirror = await Mirror.findOne({
-    where: { id: 1 },
+    where: { id: 2 },
   });
   if (mirror) {
     const { description, image } = mirror;

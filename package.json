@@ -67,9 +67,7 @@
     "redis": "^3.1.2",
     "sequelize": "^6.6.2",
     "sequelize-cli": "^6.2.0",
-    "sqlite": "^4.0.21",
-    "sqlite3": "^5.0.2",
     "web3": "^1.3.5",
-    "wildcards-contracts": "^1.0.1"
+    "wildcards-contracts": "^1.0.3"
   }
 }

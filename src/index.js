@@ -40,7 +40,7 @@ app.use(bodyParser.json());
 const off = new URL("https://off.supply");
 const lifeforms = new URL("https://lifeforms.supply");
 const wildcards = new URL("https://wildcard.supply");
-const mirrors = new URL("https://64b8f061cbdc5558960c88da--glittering-figolla-140367.netlify.app/");
+const mirrors = new URL("https://mirrorpiece.isthisa.com");
 const dev = new URL("http://localhost:3000");
 
 app.use(

@@ -41,24 +41,30 @@ const get = async (req, res) => {
       false
     );
   }
-  const lifeform = await Lifeform.findOne({
-    where: { tokenId: req.params.id },
-  });
-  if (lifeform) {
-    const { name, description, tokenId, image } = lifeform;
-    return respondWithSuccess(
-      res,
-      {
-        name,
-        description,
-        tokenId,
-        image,
-      },
-      httpStatus.OK,
-      false
-    );
+  try {
+    const lifeform = await Lifeform.findOne({
+      where: { tokenId: req.params.id },
+    }); 
+    if (lifeform) {
+      const { name, description, tokenId, image } = lifeform;
+      return respondWithSuccess(
+        res,
+        {
+          name,
+          description,
+          tokenId,
+          image,
+        },
+        httpStatus.OK,
+        false
+      );
+    }
+    return respondWithError(res, httpStatus.NOT_FOUND);
+  } catch (err) {
+    console.log(req.params.id);
+    console.log(err);
+    return respondWithError(res, httpStatus.INTERNAL_SERVER_ERROR);
   }
-  return respondWithError(res, httpStatus.NOT_FOUND);
 };
 
 const count = async (req, res) => {

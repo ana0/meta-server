@@ -1,21 +1,33 @@
-'use strict';
-
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable("memoryforms", {
+      id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+      },
+      createdCount: {
+        type: Sequelize.INTEGER,
+      },
+      address: {
+        type: Sequelize.STRING,
+      },
+      killedCount: {
+        type: Sequelize.INTEGER,
+      },
+      carePatterns: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+      },
+    });
   },
-
-  down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-  }
+  down: (queryInterface) => {
+    return queryInterface.dropTable("memoryforms");
+  },
 };

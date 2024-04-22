@@ -44,7 +44,7 @@ const get = async (req, res) => {
   try {
     const lifeform = await Lifeform.findOne({
       where: { tokenId: req.params.id },
-    }); 
+    });
     if (lifeform) {
       const { name, description, tokenId, image } = lifeform;
       return respondWithSuccess(

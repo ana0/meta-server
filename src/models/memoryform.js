@@ -21,6 +21,18 @@ const Memoryform = db.define("memoryform", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  killedNotCreatedCount: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  distributions: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  uniqueDistributions: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   carePatterns: {
     type: DataTypes.ARRAY(DataTypes.STRING),
   }

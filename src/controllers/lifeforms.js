@@ -59,11 +59,11 @@ const get = async (req, res) => {
         false
       );
     }
-    return respondWithError(res, httpStatus.NOT_FOUND);
+    return respondWithError(res, { message: "No such lifeform" }, httpStatus.NOT_FOUND);
   } catch (err) {
     console.log(req.params.id);
     console.log(err);
-    return respondWithError(res, httpStatus.INTERNAL_SERVER_ERROR);
+    return respondWithError(res, { message: "Unidentified err" }, httpStatus.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -83,13 +83,13 @@ const mint = async (req, res) => {
   const tokenId = req.body.tokenId;
   const seed = await getSeed(tokenId);
   if (seed === ZERO_HASH) {
-    return respondWithError(res, httpStatus.NOT_FOUND);
+    return respondWithError(res, { message: "No such lifeform" }, httpStatus.NOT_FOUND);
   }
   const exists = await Lifeform.findOne({
     where: { tokenId },
   });
   if (exists) {
-    return respondWithError(res, httpStatus.CONFLICT);
+    return respondWithError(res, { message: "Already exists" }, httpStatus.CONFLICT);
   }
   const lifeform = {
     tokenId,

@@ -20,6 +20,7 @@ module.exports = {
       tokenId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        unique: true,
       },
       description: {
         type: Sequelize.STRING,

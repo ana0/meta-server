@@ -17,7 +17,7 @@ module.exports = {
     return queryInterface.removeColumn("memoryforms", "killedNotCreatedCount")
     .then(() => queryInterface.removeColumn("memoryforms", "distributions"))
     .then(() => queryInterface.removeColumn("memoryforms", "uniqueDistributions"))
-    .then(() => queryInterface.dropIndex('memoryforms', ['address']))
-    .then(() => queryInterface.dropIndex('lifeforms', ['tokenId']))
+    .then(() => queryInterface.removeIndex('memoryforms', ['address']))
+    .then(() => queryInterface.removeIndex('lifeforms', ['tokenId']))
   },
 };

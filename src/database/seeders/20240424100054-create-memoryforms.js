@@ -7,7 +7,7 @@ module.exports = {
       const forms = [];
 
       fs.createReadStream("./memoryforms.csv")
-        .pipe(csv({ separator: ';'} ))
+        .pipe(csv({ separator: ';'}))
         .on("data", (row) => {
           console.log(row);
           forms.push({

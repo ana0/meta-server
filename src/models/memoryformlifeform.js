@@ -24,7 +24,13 @@ const MemoryformLifeform = db.define(
         type: DataTypes.BOOLEAN,
     },
     shortHoldTime: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DATE,
+    },
+    shortHoldDuration: {
+      type: DataTypes.INTEGER,
+    },
+    shortHoldRepeat: {
+      type: DataTypes.BOOLEAN,
     },
     killed: {
         type: DataTypes.BOOLEAN,
@@ -33,7 +39,13 @@ const MemoryformLifeform = db.define(
         type: DataTypes.BOOLEAN,
     },
     nearDeathTime: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DATE,
+    },
+    nearDeathDuration: {
+      type: DataTypes.INTEGER,
+    },
+    nearDeathRepeat: {
+      type: DataTypes.BOOLEAN,
     },
     interactionCount: {
         type: DataTypes.INTEGER,
@@ -41,4 +53,4 @@ const MemoryformLifeform = db.define(
   },
 );
 
-export default FestivalArtwork;
+export default MemoryformLifeform;

@@ -2,11 +2,21 @@ import httpStatus from "http-status";
 
 import { respondWithSuccess, respondWithError } from "../helpers/respond";
 import Memoryform from "../models/memoryform";
+import {
+  MemoryformHasManyMemoryformLifeform,
+  MemoryformLifeformBelongsToLifeform,
+ } from "../database/associations";
 
 const get = async (req, res) => {
   console.log(req.params)
   const memoryform = await Memoryform.findOne({
     where: { address: req.params.address },
+
+    include: [{
+      association: MemoryformHasManyMemoryformLifeform,
+      include: [MemoryformLifeformBelongsToLifeform],
+    }
+    ],
   });
   if (memoryform) {
     const {
@@ -17,7 +27,8 @@ const get = async (req, res) => {
       killedNotCreatedCount,
       distributions,
       uniqueDistributions,
-      carePatterns
+      carePatterns,
+      memoryformlifeforms
     } = memoryform;
     return respondWithSuccess(
       res,
@@ -29,7 +40,8 @@ const get = async (req, res) => {
         killedNotCreatedCount,
         distributions,
         uniqueDistributions,
-        carePatterns
+        carePatterns,
+        memoryformlifeforms
       },
       httpStatus.OK,
       false

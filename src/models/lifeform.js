@@ -27,6 +27,12 @@ const Lifeform = db.define("lifeform", {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
+  birth: {
+    type: DataTypes.INTEGER,
+  },
+  death: {
+    type: DataTypes.INTEGER,
+  },
   ageAtDeath: {
     type: DataTypes.INTEGER,
   },

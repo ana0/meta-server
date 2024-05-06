@@ -26,7 +26,7 @@ module.exports = {
         type: Sequelize.BOOLEAN,
       },
       shortHoldTime: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
       },
       killed: {
         type: Sequelize.BOOLEAN,
@@ -35,7 +35,7 @@ module.exports = {
         type: Sequelize.BOOLEAN,
       },
       nearDeathTime: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
       },
       interactionCount: {
         type: Sequelize.INTEGER,

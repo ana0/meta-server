@@ -11,42 +11,55 @@ import metadata3 from "../static/3.json";
 const ZERO_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
 const get = async (req, res) => {
-  if (req.params.id === "1") {
-    return respondWithSuccess(
-      res,
-      {
-        ...metadata1,
-      },
-      httpStatus.OK,
-      false
-    );
-  }
-  if (req.params.id === "2") {
-    return respondWithSuccess(
-      res,
-      {
-        ...metadata2,
-      },
-      httpStatus.OK,
-      false
-    );
-  }
-  if (req.params.id === "3") {
-    return respondWithSuccess(
-      res,
-      {
-        ...metadata3,
-      },
-      httpStatus.OK,
-      false
-    );
-  }
+  // if (req.params.id === "1") {
+  //   return respondWithSuccess(
+  //     res,
+  //     {
+  //       ...metadata1,
+  //     },
+  //     httpStatus.OK,
+  //     false
+  //   );
+  // }
+  // if (req.params.id === "2") {
+  //   return respondWithSuccess(
+  //     res,
+  //     {
+  //       ...metadata2,
+  //     },
+  //     httpStatus.OK,
+  //     false
+  //   );
+  // }
+  // if (req.params.id === "3") {
+  //   return respondWithSuccess(
+  //     res,
+  //     {
+  //       ...metadata3,
+  //     },
+  //     httpStatus.OK,
+  //     false
+  //   );
+  // }
   try {
     const lifeform = await Lifeform.findOne({
       where: { tokenId: req.params.id },
     });
     if (lifeform) {
-      const { name, description, tokenId, image } = lifeform;
+      console.log(lifeform.dataValues)
+      const {
+        name,
+        description,
+        tokenId,
+        image,
+        birth,
+        death,
+        ageAtDeath,
+        totalCaretakers,
+        totalTransfers,
+        minTransfers,
+        archetypes
+      } = lifeform;
       return respondWithSuccess(
         res,
         {
@@ -54,6 +67,13 @@ const get = async (req, res) => {
           description,
           tokenId,
           image,
+          birth,
+          death,
+          ageAtDeath,
+          totalCaretakers,
+          totalTransfers,
+          minTransfers,
+          archetypes
         },
         httpStatus.OK,
         false

@@ -46,7 +46,6 @@ const get = async (req, res) => {
       where: { tokenId: req.params.id },
     });
     if (lifeform) {
-      console.log(lifeform.dataValues)
       const {
         name,
         description,

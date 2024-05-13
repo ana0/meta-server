@@ -5,6 +5,7 @@ const {
   ethereumNode,
   offControllerPrivateKey,
   wildcardsControllerPrivateKey,
+  memoryformsControllerPrivateKey
 } = require("../config");
 
 //export const provider = new Web3.providers.WebsocketProvider(ethereumNodeWs);
@@ -28,6 +29,10 @@ export const offController = polygonWeb3.eth.accounts.privateKeyToAccount(
 
 export const wildcardsController = ethereumWeb3.eth.accounts.privateKeyToAccount(
   wildcardsControllerPrivateKey
+);
+
+export const memoryformsController = ethereumWeb3.eth.accounts.privateKeyToAccount(
+  memoryformsControllerPrivateKey
 );
 
 export const { BN } = polygonWeb3.utils;

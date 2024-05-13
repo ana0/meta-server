@@ -2,6 +2,7 @@ import OffContract from "off-contracts/build/contracts/Off.json";
 import LifeformsContract from "lifeforms-contracts/build/contracts/Lifeforms2.json";
 import WildcardsContract from "wildcards-contracts/build/contracts/Wildcards.json";
 import MirrorsContract from "mirror-piece-contracts/build/contracts/MirrorPiece.json";
+import MemoryformsContract from "good-death-contracts/artifacts/contracts/CarerMint.sol/CarerMint.json";
 
 import { polygonWeb3, ethereumWeb3 } from "../web3";
 
@@ -25,6 +26,10 @@ export function getWildcardsContract(address) {
 
 export function getMirrorsContract(address) {
   return getContract(MirrorsContract.abi, address, polygonWeb3);
+}
+
+export function getMemoryformsContract(address) {
+  return getContract(MemoryformsContract.abi, address, ethereumWeb3);
 }
 
 export async function isContract(address, network) {
@@ -51,6 +56,10 @@ export async function isMirrorsContract() {
   return isContract(process.env.MIRROR_CONTRACT, polygonWeb3);
 }
 
+export async function isMemoryformsContract() {
+  return isContract(process.env.MEMORYFORMS_CONTRACT, ethereumWeb3);
+}
+
 export const offContract = getOffContract(process.env.OFF_CONTRACT);
 
 export const lifeformsContract = getLifeformsContract(
@@ -62,3 +71,5 @@ export const wildcardsContract = getWildcardsContract(
 );
 
 export const mirrorsContract = getMirrorsContract(process.env.MIRROR_CONTRACT);
+
+export const memoryformsContract = getMemoryformsContract(process.env.MEMORYFORMS_CONTRACT);

@@ -105,22 +105,47 @@ export const chooseColour = (seed, beginSlice, endSlice) => {
   ];
 };
 
-export const generateSVG = (seed) => {
+export const generateSVG = (seed, interactions) => {
   const max = parseInt("ffffffffff", 16);
   console.log(seed);
-  const x1 = scale(normalize(parseInt(seed.slice(0, 10), 16), max, 0), 0.8, 0.2);
-  const y1 = scale(normalize(parseInt(seed.slice(10, 20), 16), max, 0), 0.8, 0.2);
-  const x2 = scale(normalize(parseInt(seed.slice(20, 30), 16), max, 0), 0.8, 0.2);
-  const y2 = scale(normalize(parseInt(seed.slice(22, 32), 16), max, 0), 0.8, 0.2);
+  const x1 = scale(normalize(parseInt(seed.slice(2, 12), 16), max, 0), 0.7, 0.3);
+  const y1 = scale(normalize(parseInt(seed.slice(10, 20), 16), max, 0), 0.7, 0.3);
+  const x2 = scale(normalize(parseInt(seed.slice(20, 30), 16), max, 0), 0.7, 0.3);
+  const y2 = scale(normalize(parseInt(seed.slice(22, 32), 16), max, 0), 0.7, 0.3);
+  const x3 = scale(normalize(parseInt(seed.slice(5, 15), 16), max, 0), 0.7, 0.3);
+  const y3 = scale(normalize(parseInt(seed.slice(7, 17), 16), max, 0), 0.7, 0.3);
   const first = chooseColour(seed, 16, 26).hex;
-  const second = chooseColour(seed, 18, 28).hex;
-  const third = chooseColour(seed, 5, 15).hex;
-  const startingText = `${generateName(seed)}`;
+  let s = 2; 
+  let second = chooseColour(seed, s, s+10).hex;
+  while (second === first) {
+    s += 1;
+    second = chooseColour(seed, s, s+10).hex;
+  }
+  let third;
+  if (interactions >= 0) {
+    let t = 3;  
+    third = chooseColour(seed, t, t+10).hex;
+    while (third === first || third === second) {
+      t += 1;
+      third = chooseColour(seed, t, t+10).hex;
+    }
+  }
+  let fourth;
+  if (interactions >= 2) {
+    let f = 4;  
+    fourth = chooseColour(seed, f, f+10).hex;
+    while (fourth === first || fourth === second || fourth === third) {
+      f += 1;
+      fourth = chooseColour(seed, f, f+10).hex;
+    }
+  }
+  const startingText = `                                                                                                                        ${generateName(seed)}`;
   console.log(x1, y1, x2, y2, first, second, third, startingText);
-  return buildSvg(x1, y1, x2, y2, first, second, third, startingText);
+  return buildSvg(x1, y1, x2, y2, first, second, third, fourth, startingText);
+  //return buildSvg(x1, y1, x2, y2, x3, y3, first, second, third, fourth, startingText);
 }
 
-export const buildSvg = (x1, y1, x2, y2, colour1, colour2, colour3, startingText) => {
+export const buildSvg = (x1, y1, x2, y2, x3, y3, colour1, colour2, colour3, colour4, startingText) => {
   const svg = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
   <svg
      viewBox="0 0 210 210"
@@ -139,13 +164,18 @@ export const buildSvg = (x1, y1, x2, y2, colour1, colour2, colour3, startingText
         <stop offset="50%" stop-color="${colour2}" stop-opacity="50"/>
         <stop offset="100%" stop-color="white" stop-opacity="0"/>
       </radialGradient>
-      <radialGradient id="Gradient2" cx="0.5" cy="0.5" r="0.5" fx="${x2}" fy="${y2}">
-        <stop offset="0%" stop-color="${colour3}" />
-        <stop offset="70%" stop-color="white" stop-opacity="0"/>
-        <stop offset="100%" stop-color="white" stop-opacity="0"/>
-      </radialGradient>
+      ${colour3 ? `<radialGradient id="Gradient2" cx="0.5" cy="0.5" r="0.5" fx="${x2}" fy="${y2}">
+      <stop offset="0%" stop-color="${colour3}" />
+      <stop offset="70%" stop-color="white" stop-opacity="0"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </radialGradient>` : ""}
+    ${colour4 ? `<radialGradient id="Gradient3" cx="0.5" cy="0.5" r="0.5" fx="${x3}" fy="${y3}">
+      <stop offset="0%" stop-color="${colour4}" />
+      <stop offset="60%" stop-color="white" stop-opacity="0"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </radialGradient>` : ""}
     </defs>
-        <rect
+      <rect
       x="0"
       y="0"
       rx="15"
@@ -154,7 +184,7 @@ export const buildSvg = (x1, y1, x2, y2, colour1, colour2, colour3, startingText
       height="210"
       fill="url(#Gradient)"
       stroke="none" />
-        <rect
+      ${colour3 ? `<rect
       x="0"
       y="0"
       rx="15"
@@ -162,9 +192,18 @@ export const buildSvg = (x1, y1, x2, y2, colour1, colour2, colour3, startingText
       width="210"
       height="210"
       fill="url(#Gradient2)"
-      stroke="none" />
+      stroke="none" />` : ""}
+      ${colour4 ? `<rect
+      x="0"
+      y="0"
+      rx="15"
+      ry="15"
+      width="210"
+      height="210"
+      fill="url(#Gradient3)"
+      stroke="none" />` : ""}
       <text font-family="monospace" letter-spacing="1" font-size="6" fill="#1d1f20">
-      <textPath id="text2" href="#path2">${startingText}</textPath>
+      <textPath id="text2" xml:space="preserve" href="#path2">${startingText}</textPath>
       </text>  
   </svg>
   `

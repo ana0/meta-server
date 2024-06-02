@@ -105,7 +105,7 @@ export const chooseColour = (seed, beginSlice, endSlice) => {
   ];
 };
 
-export const generateSVG = (seed, interactions) => {
+export const generateSVG = (seed, interactions, msg) => {
   const max = parseInt("ffffffffff", 16);
   console.log(seed);
   const x1 = scale(normalize(parseInt(seed.slice(2, 12), 16), max, 0), 0.7, 0.3);
@@ -139,10 +139,10 @@ export const generateSVG = (seed, interactions) => {
       fourth = chooseColour(seed, f, f+10).hex;
     }
   }
-  const startingText = `                                                                                                                        ${generateName(seed)}`;
+  const startingText = `${msg ? msg  : ''}                                                                                                                        ${generateName(seed)}`;
   console.log(x1, y1, x2, y2, first, second, third, startingText);
-  return buildSvg(x1, y1, x2, y2, first, second, third, fourth, startingText);
-  //return buildSvg(x1, y1, x2, y2, x3, y3, first, second, third, fourth, startingText);
+  //return buildSvg(x1, y1, x2, y2, first, second, third, fourth, startingText);
+  return buildSvg(x1, y1, x2, y2, x3, y3, first, second, third, fourth, startingText);
 }
 
 export const buildSvg = (x1, y1, x2, y2, x3, y3, colour1, colour2, colour3, colour4, startingText) => {
@@ -203,7 +203,7 @@ export const buildSvg = (x1, y1, x2, y2, x3, y3, colour1, colour2, colour3, colo
       fill="url(#Gradient3)"
       stroke="none" />` : ""}
       <text font-family="monospace" letter-spacing="1" font-size="6" fill="#1d1f20">
-      <textPath id="text2" xml:space="preserve" href="#path2">${startingText}</textPath>
+      <textPath id="text" xml:space="preserve" href="#path2">${startingText}</textPath>
       </text>  
   </svg>
   `

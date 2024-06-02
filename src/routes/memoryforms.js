@@ -4,6 +4,8 @@ import memoryformsController from "../controllers/memoryforms";
 
 const router = express.Router();
 
-router.get("/:address", memoryformsController.get);
+router.get("/", memoryformsController.get);
+
+//router.get("/svg", memoryformsController.getSVG);
 
 export default router;

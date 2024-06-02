@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.14.5",
+    "base64json": "^1.0.3",
     "body-parser": "^1.19.0",
     "bull": "^3.22.8",
     "celebrate": "^14.0.0",
@@ -68,6 +69,7 @@
     "redis": "^3.1.2",
     "sequelize": "^6.6.2",
     "sequelize-cli": "^6.2.0",
+    "svg64": "^2.0.0",
     "web3": "^1.3.5",
     "wildcards-contracts": "^1.0.3"
   }

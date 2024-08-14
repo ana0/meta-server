@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get("/", memoryformsController.get);
 
-//router.get("/svg", memoryformsController.getSVG);
+router.put("/", memoryformsController.create);
 
 export default router;

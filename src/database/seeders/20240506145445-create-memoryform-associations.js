@@ -8,9 +8,10 @@ module.exports = {
         .pipe(csv({ separator: ';'}))
         .on("data", async (row) => {
 
-
+            console.log(row)
             const memoryform = await queryInterface.sequelize.query(`SELECT id FROM memoryforms WHERE address = '${row.address}';`)
             const lifeform = await queryInterface.sequelize.query(`SELECT id FROM lifeforms WHERE "tokenId" = '${row.tokenId}';`)
+            console.log(lifeform[0], row.tokenId)
             delete row.address;
             delete row.tokenId;
             if(row.shortHold === 'false') {
@@ -23,6 +24,8 @@ module.exports = {
             } else {
               row.nearDeathTime = new Date(row.nearDeathTime*1000);
             }
+            
+            
             await queryInterface.bulkInsert("memoryforms2lifeforms", [{
               ...row,
               memoryformId: memoryform[0][0].id,

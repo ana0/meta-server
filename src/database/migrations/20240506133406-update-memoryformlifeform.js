@@ -5,11 +5,11 @@ module.exports = {
       return queryInterface.removeColumn("memoryforms2lifeforms", "nearDeathTime")
     }).then(() => {
       return queryInterface.addColumn("memoryforms2lifeforms", "nearDeathDuration", {
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       })
     }).then(() => {
       return queryInterface.addColumn("memoryforms2lifeforms", "shortHoldDuration", {
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       })
     }).then(() => {
       return queryInterface.addColumn("memoryforms2lifeforms", "shortHoldRepeat", {

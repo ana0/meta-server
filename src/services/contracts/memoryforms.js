@@ -9,9 +9,9 @@ export async function getToken(tokenId) {
   return token;
 }
 
-export async function getMessageHash(metadata, nonce) {
+export async function getMessageHash(metadata, to, nonce) {
   const hash = await memoryformsContract.methods
-    .getMessageHash(metadata, nonce)
+    .getMessageHash(metadata, to, nonce)
     .call();
   return hash;
 }

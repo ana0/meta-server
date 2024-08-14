@@ -19,6 +19,8 @@ const mirrorsControllerPrivateKey = process.env.MIRROR_CONTROLLER;
 
 const memoryformsControllerPrivateKey = process.env.MEMORYFORMS_CONTROLLER;
 
+const charonControllerPrivateKey = process.env.CHARON_CONTROLLER;
+
 const basePath = process.env.BASE_PATH;
 
 const gravediggerPrivKey = process.env.GRAVEDIGGER_PRIV_KEY;
@@ -31,6 +33,7 @@ module.exports = {
   wildcardsControllerPrivateKey,
   mirrorsControllerPrivateKey,
   memoryformsControllerPrivateKey,
+  charonControllerPrivateKey,
   ethereumNodeWs,
   ethereumNode,
   polygonNode,

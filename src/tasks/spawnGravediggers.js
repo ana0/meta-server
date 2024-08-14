@@ -11,7 +11,7 @@ const spawn = new Queue("Spawn gravediggers nightly", redisUrl, {
 });
 
 processor(spawn).process(async () => {
-  const lifeforms = await Lifeform.findAll();
+  const lifeforms = await Lifeform.findAll({ alive: true });
   lifeforms.map((form) => {
     submitJob(gravedig, `${form.tokenId}-${form.name}`, {
       tokenId: form.tokenId,

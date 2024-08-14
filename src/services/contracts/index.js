@@ -2,7 +2,8 @@ import OffContract from "off-contracts/build/contracts/Off.json";
 import LifeformsContract from "lifeforms-contracts/build/contracts/Lifeforms2.json";
 import WildcardsContract from "wildcards-contracts/build/contracts/Wildcards.json";
 import MirrorsContract from "mirror-piece-contracts/build/contracts/MirrorPiece.json";
-import MemoryformsContract from "good-death-contracts/artifacts/contracts/CarerMint.sol/CarerMint.json";
+import MemoryformsContract from "good-death-contracts/artifacts/contracts/Memoryforms.sol/Memoryforms.json";
+import CharonContract from "good-death-contracts/artifacts/contracts/Charon.sol/Charon.json";
 
 import { polygonWeb3, ethereumWeb3 } from "../web3";
 
@@ -30,6 +31,10 @@ export function getMirrorsContract(address) {
 
 export function getMemoryformsContract(address) {
   return getContract(MemoryformsContract.abi, address, ethereumWeb3);
+}
+
+export function getCharonContract(address) {
+  return getContract(CharonContract.abi, address, polygonWeb3);
 }
 
 export async function isContract(address, network) {
@@ -60,6 +65,10 @@ export async function isMemoryformsContract() {
   return isContract(process.env.MEMORYFORMS_CONTRACT, ethereumWeb3);
 }
 
+export async function isCharonContract() {
+  return isContract(process.env.CHARON_CONTRACT, polygonWeb3);
+}
+
 export const offContract = getOffContract(process.env.OFF_CONTRACT);
 
 export const lifeformsContract = getLifeformsContract(
@@ -73,3 +82,5 @@ export const wildcardsContract = getWildcardsContract(
 export const mirrorsContract = getMirrorsContract(process.env.MIRROR_CONTRACT);
 
 export const memoryformsContract = getMemoryformsContract(process.env.MEMORYFORMS_CONTRACT);
+
+export const charonContract = getCharonContract(process.env.CHARON_CONTRACT);

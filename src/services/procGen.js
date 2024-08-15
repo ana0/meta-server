@@ -161,7 +161,7 @@ export const generateDeathSVG = (seed, tokenId) => {
   const colour = chooseColour(seed, 16, 26).hex;
   console.log(x1, y1, x2, y2, x3, y3, 1, 1, 1, 1);
   //return buildSvg(x1, y1, x2, y2, first, second, third, fourth, startingText);
-  return buildDeathSvg(id, x1, y1, x2, y2, x3, y3, 1, colour, 1, 1, tokenId);
+  return buildDeathSvg(id, x1, y1, x2, y2, x3, y3, 1, 1, colour, 1, tokenId);
 }
 
 export const buildMemoriesSvg = (id, x1, y1, x2, y2, x3, y3, colour1, colour2, colour3, colour4, startingText) => {
@@ -221,6 +221,11 @@ export const buildDeathSvg = (id, x1, y1, x2, y2, x3, y3, colour1, colour2, colo
       ${colour3 ? `<radialGradient id="${id}-Gradient2" cx="0.5" cy="0.5" r="0.5" fx="${x2}" fy="${y2}">
       <stop offset="0%" stop-color="${colour3}" />
       <stop offset="70%" stop-color="white" stop-opacity="0"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </radialGradient>` : ""}
+      ${colour4 ? `<radialGradient id="${id}-Gradient3" cx="0.5" cy="0.5" r="0.5" fx="${x3}" fy="${y3}">
+      <stop offset="0%" stop-color="${colour4}" />
+      <stop offset="60%" stop-color="white" stop-opacity="0"/>
       <stop offset="100%" stop-color="white" stop-opacity="0"/>
     </radialGradient>` : ""}
     </defs>

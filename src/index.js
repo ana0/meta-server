@@ -41,6 +41,7 @@ const off = new URL("https://off.supply");
 const lifeforms = new URL("https://lifeforms.supply");
 const wildcards = new URL("https://wildcard.supply");
 const mirrors = new URL("https://mirrorpiece.isthisa.com");
+const gooddeath = new URL("https://gooddeath.lifeforms.supply");
 const dev = new URL("http://localhost:3000");
 
 app.use(
@@ -50,12 +51,14 @@ app.use(
       new RegExp(`.${off.hostname}`, "i"),
       lifeforms.hostname,
       new RegExp(`.${lifeforms.hostname}`, "i"),
-      dev.hostname,
-      new RegExp(`.${dev.hostname}`, "i"),
+      // dev.hostname,
+      // new RegExp(`.${dev.hostname}`, "i"),
       wildcards.hostname,
       new RegExp(`.${wildcards.hostname}`, "i"),
       mirrors.hostname,
       new RegExp(`.${mirrors.hostname}`, "i"),
+      gooddeath.hostname,
+      new RegExp(`.${gooddeath.hostname}`, "i"),
     ],
     allowedHeaders: [
       "Authorization",

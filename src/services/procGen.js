@@ -158,10 +158,10 @@ export const generateDeathSVG = (seed, tokenId) => {
   const y2 = scale(normalize(parseInt(seed.slice(22, 32), 16), max, 0), 0.7, 0.3);
   const x3 = scale(normalize(parseInt(seed.slice(5, 15), 16), max, 0), 0.7, 0.3);
   const y3 = scale(normalize(parseInt(seed.slice(7, 17), 16), max, 0), 0.7, 0.3);
-  const startingText = `${''}                                                                                                                        ${generateName(seed)}`;
-  console.log(x1, y1, x2, y2, x3, y3, 1, 1, 1, 1, startingText);
+  const colour = chooseColour(seed, 16, 26).hex;
+  console.log(x1, y1, x2, y2, x3, y3, 1, 1, 1, 1);
   //return buildSvg(x1, y1, x2, y2, first, second, third, fourth, startingText);
-  return buildDeathSvg(id, x1, y1, x2, y2, x3, y3, 1, 1, 1, 1, tokenId);
+  return buildDeathSvg(id, x1, y1, x2, y2, x3, y3, 1, colour, 1, 1, tokenId);
 }
 
 export const buildMemoriesSvg = (id, x1, y1, x2, y2, x3, y3, colour1, colour2, colour3, colour4, startingText) => {
@@ -228,7 +228,7 @@ export const buildDeathSvg = (id, x1, y1, x2, y2, x3, y3, colour1, colour2, colo
       ${colour3 ? `<rect x="0" y="0" rx="15" ry="15" width="210" height="210" fill="url(#${id}-Gradient2)" stroke="none" />` : ""}
       ${colour4 ? `<rect x="0" y="0" rx="15" ry="15" width="210" height="210" fill="url(#${id}-Gradient3)" stroke="none" />` : ""}
       
-      <text font-family="monospace" letter-spacing="1" font-size="6" fill="white" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">Deathform #${startingText}</text>  
+      <text font-family="monospace" letter-spacing="1" font-size="6" fill="white" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">Lifeform #${startingText}</text>  
   </svg>
   `
   return svg;

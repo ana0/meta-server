@@ -67,7 +67,7 @@ const get = async (req, res) => {
       false
     );
   }
-  return respondWithError(res, httpStatus.NOT_FOUND);
+  return respondWithError(res, { message: "Not found" }, httpStatus.NOT_FOUND);
 };
 
 export default {

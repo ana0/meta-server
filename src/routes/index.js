@@ -6,6 +6,8 @@ import lifeformsRouter from "./lifeforms";
 import wildcardsRouter from "./wildcards";
 import mirrorsRouter from "./mirrors";
 import uploadsRouter from "./uploads";
+import memoryformsRouter from "./memoryforms";
+import gooddeathRouter from "./gooddeath";
 import { respondWithSuccess } from "../helpers/respond";
 import APIError from "../helpers/errors";
 
@@ -24,6 +26,10 @@ router.use("/lifeforms", lifeformsRouter);
 router.use("/mirrors", mirrorsRouter);
 
 router.use("/uploads", uploadsRouter);
+
+router.use("/memoryforms", memoryformsRouter);
+
+router.use("/gooddeath", gooddeathRouter);
 
 router.use(() => {
   throw new APIError(httpStatus.NOT_FOUND);

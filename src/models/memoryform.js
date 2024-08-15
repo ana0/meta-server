@@ -2,52 +2,40 @@ import { DataTypes } from "sequelize";
 
 import db from "../database";
 
-const Lifeform = db.define("lifeform", {
+const Memoryform = db.define("memoryform", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  name: {
+  address: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  tokenId: {
+  createdCount: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  description: {
-    type: DataTypes.STRING,
-  },
-  image: {
-    type: DataTypes.STRING,
-  },
-  alive: {
-    type: DataTypes.BOOLEAN,
+  killedCount: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  birth: {
+  killedNotCreatedCount: {
     type: DataTypes.INTEGER,
+    allowNull: false,
   },
-  death: {
+  distributions: {
     type: DataTypes.INTEGER,
+    allowNull: false,
   },
-  ageAtDeath: {
+  uniqueDistributions: {
     type: DataTypes.INTEGER,
+    allowNull: false,
   },
-  totalCaretakers: {
-    type: DataTypes.INTEGER,
-  },
-  totalTransfers: {
-    type: DataTypes.INTEGER,
-  },
-  minTransfers: {
-    type: DataTypes.INTEGER,
-  },
-  archetypes: {
+  carePatterns: {
     type: DataTypes.ARRAY(DataTypes.STRING),
   }
 });
 
-export default Lifeform;
+export default Memoryform;

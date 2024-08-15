@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("lifeforms", {
+    return queryInterface.createTable("memoryforms", {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -13,24 +13,21 @@ module.exports = {
       updatedAt: {
         type: Sequelize.DATE,
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      tokenId: {
+      createdCount: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: true,
       },
-      description: {
+      address: {
         type: Sequelize.STRING,
       },
-      image: {
-        type: Sequelize.STRING,
+      killedCount: {
+        type: Sequelize.INTEGER,
+      },
+      carePatterns: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
       },
     });
   },
   down: (queryInterface) => {
-    return queryInterface.dropTable("lifeforms");
+    return queryInterface.dropTable("memoryforms");
   },
 };

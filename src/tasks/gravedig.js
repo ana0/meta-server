@@ -23,7 +23,7 @@ processor(digGraves).process(async ({ data }) => {
       [data.tokenId],
       gravediggerPrivKey
     );
-    await Lifeform.destroy({
+    await Lifeform.update({ alive: false }, {
       where: {
         tokenId: data.tokenId,
       },

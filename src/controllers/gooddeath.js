@@ -18,25 +18,41 @@ const generateAuth = async (metadata, address, nonce) => {
 
 const getJSON = async (svg, archetypes, tokenId, birth, msg) => {
   let traits = []
-  const deltatime = (Date.now()/1000) - birth;
-  const days = Math.floor(deltatime / 86400);
-  const hours = Math.floor((deltatime - days * 86400) / 3600);
+  const deltatime = Date.now() - Number(birth);
+  const days = Math.floor(deltatime / 86400000);
+  const hours = Math.floor((deltatime - days * 86400000) / 3600000);
+  const parsedBirth = new Date(Number(birth));
+  const now = Date.now()
   //const seconds = Math.floor(deltatime - ageDays * 86400 - ageHours * 3600);
   archetypes.forEach(item => {
     traits.push(`{"trait_type":"Archetype","value":"${item}"}`)
   })
-  console.log(traits)
-  return `{"status":"ok","name":" Deathform #${tokenId}","description":"This is the resting place of Lifeform #${tokenId}, which was born on ${Date.parse(birth)} and crossed the bridge on ${Date.now()} at the age of ${days} days, and ${hours} hours.","image":"${svg64(svg)}",`
+  let punctuation;
+  msg = msg.trim();
+  if (msg === '') {
+    punctuation = '';
+  } else {
+    punctuation = msg.endsWith('.') || msg.endsWith('?') || msg.endsWith('!') ? '' : '.';
+  }
+  const json = `{"status":"ok","name":" Deathform #${tokenId}",` +
+  `"description":"This is the resting place of Lifeform #${tokenId}, which was born on` +
+  ` ${parsedBirth.toDateString()} and crossed the bridge ` +
+  ` on ${new Date(now).toDateString()} at the age of ${days} days, and ${hours} hours. ${msg}${punctuation} ` +
+  `Rest in Peace, Lifeform #${tokenId}.",` +
+  `"image":"${svg64(svg)}",` 
   +`"attributes":[${traits.join()}]}`
+  return json;
 }
 
 const packageSVG = async (tokenId) => {
   const seed = await web3.utils.soliditySha3(tokenId)
   const svg = generateDeathSVG(seed, tokenId);
+  console.log(svg)
   return svg;
 }
 
-const generateMetadata = async (address, msg, lifeform, svg) => {
+const generateMetadata = async (msg, lifeform, svg) => {
+  console.log(lifeform)
   const json = await getJSON(svg, lifeform.archetypes, lifeform.tokenId, lifeform.birth, msg);
   console.log(json)
   return `data:application/json;base64,${base64json.stringify(json, null, 2)}`;
@@ -105,8 +121,8 @@ const create = async (req, res) => {
     if (!lifeform) {
       return respondWithError(res, { message: "Unauthorized" }, httpStatus.UNAUTHORIZED);
     }
-    const svg = await packageSVG(lifeform);
-    const metadata = await generateMetadata(req.body.address, req.body.msg, lifeform, svg);
+    const svg = await packageSVG(lifeform.tokenId);
+    const metadata = await generateMetadata(req.body.msg, lifeform, svg);
     //console.log(metadata)
     const nonce = await incrementInRedis(deathformsNonceName);
     console.log(req.body.address)
@@ -115,7 +131,8 @@ const create = async (req, res) => {
       req.body.address,
       nonce
     );
-    //console.log(svg)
+    lifeform.message = req.body.msg;
+    await lifeform.save();
     return respondWithSuccess(res, {
       auth,
       metadata,

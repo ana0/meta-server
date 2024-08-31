@@ -159,82 +159,50 @@ export const generateDeathSVG = (seed, tokenId) => {
   const x3 = scale(normalize(parseInt(seed.slice(5, 15), 16), max, 0), 0.7, 0.3);
   const y3 = scale(normalize(parseInt(seed.slice(7, 17), 16), max, 0), 0.7, 0.3);
   const colour = chooseColour(seed, 16, 26).hex;
-  console.log(x1, y1, x2, y2, x3, y3, 1, 1, 1, 1);
-  //return buildSvg(x1, y1, x2, y2, first, second, third, fourth, startingText);
-  return buildDeathSvg(id, x1, y1, x2, y2, x3, y3, 1, 1, colour, 1, tokenId);
+  return buildDeathSvg(id, x1, y1, x2, y2, x3, y3, colour, tokenId);
 }
 
 export const buildMemoriesSvg = (id, x1, y1, x2, y2, x3, y3, colour1, colour2, colour3, colour4, startingText) => {
-  const svg = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-  <svg
-     viewBox="0 0 210 210"
-     version="1.1"
-     id="svg1"
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:svg="http://www.w3.org/2000/svg">
-    <defs>
-      <path
-         style="fill:none;fill-rule:evenodd;stroke:none;"
-         id="${id}-path2"
-         d="m 105.07232,132.80821 c 0.77227,1.31086 -1.386,1.68774 -2.17874,1.28356 -2.14825,-1.09528 -1.75986,-4.10924 -0.38838,-5.64103 2.45326,-2.74001 6.79611,-2.01247 9.10333,0.50679 3.38594,3.69712 2.28277,9.52311 -1.40197,12.56563 -4.91118,4.05518 -12.264849,2.56122 -16.02792,-2.29715 -4.73544,-6.11376 -2.844022,-15.01372 3.192322,-19.49021 7.310818,-5.42163 17.766648,-3.12936 22.952508,4.0875 6.11136,8.50481 3.41629,20.52209 -4.98267,26.4148 -9.69694,6.80337 -23.279229,3.70428 -29.877103,-5.87785 -7.496924,-10.88783 -3.993025,-26.03754 6.773026,-33.3394 12.077887,-8.19157 28.796717,-4.2823 36.801687,7.66821 8.88704,13.26732 4.57199,31.55654 -8.56338,40.26398 -14.45632,9.58311 -34.316864,4.86198 -43.726276,-9.45855 -10.279646,-15.64498 -5.152211,-37.07759 10.353731,-47.18858 16.833355,-10.976559 39.838615,-5.442635 50.650875,11.24891 11.67377,18.02153 5.73321,42.59991 -12.14409,54.11316 -19.20953,12.37124 -45.361407,6.02393 -57.575459,-13.03926 -13.068892,-20.39738 -6.314744,-48.12308 13.934436,-61.037751 21.585123,-13.766721 50.884913,-6.60565 64.500053,14.829611 14.46469,22.77277 6.89663,53.64687 -15.72479,67.96235 -23.96033,15.16278 -56.408926,7.18768 -71.424642,-16.61997 -15.860979,-25.14782 -7.47878,-59.17108 17.51514,-74.886935 26.335252,-16.559265 61.933322,-7.76993 78.349232,18.410315 17.25763,27.52262 8.06113,64.69563 -19.30549,81.81153 C 107.1678,203.05393 68.419751,193.45022 50.603925,164.8972 31.949367,134.99996 41.960308,94.676778 71.69977,76.161082 c 31.08449,-19.353105 72.9829,-8.934909 92.19841,21.991022 20.05171,32.271706 9.22623,75.745416 -22.88619,95.660706 -33.45891,20.75034 -78.507984,9.51757 -99.123008,-23.78137 C 20.439967,135.38537 32.08005,88.760863 66.565532,67.446139 102.39874,45.298414 150.59874,57.345825 172.61313,93.017866 195.45959,130.0382 183.00484,179.81373 146.14623,202.52776 107.93879,226.07299 56.587678,213.21088 33.174039,175.16568 8.9300058,135.77115 22.199484,82.844422 61.431294,58.731196 102.01289,33.788344 156.51528,47.4652 181.32807,87.883627 206.96976,129.65228 192.88552,185.73037 151.28046,211.2427 108.32476,237.58325 50.670956,223.09161 24.459096,180.29992 -2.5803359,136.15718 12.318709,76.927622 56.297055,50.016253 101.62681,22.277927 162.43215,37.584383 190.04301,82.749389 218.48025,129.26616 202.76638,191.6473 156.4147,219.95764"
-         transform="translate(-3.3247734,-25.149235)" />
-      <radialGradient id="${id}-Gradient" cx="0.5" cy="0.5" r="0.5" fx="${x1}" fy="${y1}">
-        <stop offset="0%" stop-color="${colour1}" />
-        <stop offset=".5" stop-color="${colour2 ? colour2 : colour1}" stop-opacity="100">
-          <animate attributeName="offset" values=".4;.7;.4" dur="5s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="100%" stop-color="white" stop-opacity="0"/>
-      </radialGradient>
-      ${colour3 ? `<radialGradient id="${id}-Gradient2" cx="0.5" cy="0.5" r="0.5" fx="${x2}" fy="${y2}">
-      <stop offset="0%" stop-color="${colour3}" />
-      <stop offset="70%" stop-color="white" stop-opacity="0"/>
-      <stop offset="100%" stop-color="white" stop-opacity="0"/>
-    </radialGradient>` : ""}
-    ${colour4 ? `<radialGradient id="${id}-Gradient3" cx="0.5" cy="0.5" r="0.5" fx="${x3}" fy="${y3}">
-      <stop offset="0%" stop-color="${colour4}" />
-      <stop offset="60%" stop-color="white" stop-opacity="0"/>
-      <stop offset="100%" stop-color="white" stop-opacity="0"/>
-    </radialGradient>` : ""}
-    </defs>
-      <rect x="0" y="0" rx="15" ry="15" width="210" height="210" fill="url(#${id}-Gradient)" stroke="none" />
-      ${colour3 ? `<rect x="0" y="0" rx="15" ry="15" width="210" height="210" fill="url(#${id}-Gradient2)" stroke="none" />` : ""}
-      ${colour4 ? `<rect x="0" y="0" rx="15" ry="15" width="210" height="210" fill="url(#${id}-Gradient3)" stroke="none" />` : ""}
-      <text font-family="monospace" letter-spacing="1" font-size="6" fill="#1d1f20">
-      <textPath id="text" xml:space="preserve" href="#${id}-path2">${startingText}</textPath>
-      </text>  
-  </svg>
-  `
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 210"><defs>`
+      + `<path id="${id}p" d="M105.072 132.808c.773 1.311-1.386 1.688-2.178 1.284-2.149-1.096-1.76`
+      + `-4.11-.389-5.641 2.453-2.74 6.796-2.013 9.104.507 3.385 3.697 2.282 9.523-1.402 12.565-4.912`
+      +` 4.055-12.265 2.561-16.028-2.297-4.736-6.114-2.844-15.014 3.192-19.49 7.31-5.422 17.767-3.13 `
+      + `22.952 4.087 6.112 8.505 3.417 20.522-4.982 26.415-9.697 6.803-23.28 3.704-29.877-5.878-7.497`
+      + `-10.888-3.993-26.037 6.773-33.34 12.078-8.19 28.796-4.281 36.801 7.67 8.887 13.266 4.572 31.55`
+      + `6-8.563 40.263-14.456 9.583-34.317 4.862-43.726-9.459-10.28-15.644-5.152-37.077 10.353-47.188 `
+      + `16.834-10.977 39.84-5.443 50.651 11.249 11.674 18.021 5.734 42.6-12.144 54.113-19.21 12.371-45`
+      + `.361 6.024-57.575-13.04-13.07-20.397-6.315-48.122 13.934-61.037 21.585-13.767 50.885-6.606 64.`
+      + `5 14.83 14.465 22.772 6.897 53.646-15.724 67.962-23.96 15.163-56.41 7.188-71.425-16.62-15.861-`
+      + `25.148-7.479-59.171 17.515-74.887 26.335-16.56 61.933-7.77 78.35 18.41 17.257 27.523 8.06 64.6`
+      + `96-19.306 81.812-28.71 17.956-67.458 8.352-85.274-20.2C31.949 135 41.96 94.676 71.7 76.16c31.0`
+      + `84-19.353 72.983-8.935 92.198 21.991 20.052 32.272 9.226 75.746-22.886 95.66-33.459 20.751-78.`
+      + `508 9.518-99.123-23.78C20.44 135.384 32.08 88.76 66.566 67.445c35.833-22.148 84.033-10.1 106.0`
+      + `47 25.572 22.847 37.02 10.392 86.796-26.467 109.51-38.207 23.545-89.558 10.683-112.972-27.362C`
+      + `8.93 135.77 22.199 82.844 61.431 58.73c40.582-24.943 95.084-11.266 119.897 29.153 25.642 41.76`
+      + `8 11.558 97.846-30.048 123.359-42.955 26.34-100.609 11.849-126.82-30.943C-2.58 136.157 12.318 `
+      + `76.928 56.296 50.016c45.33-27.738 106.135-12.432 133.746 32.733 28.437 46.517 12.723 108.898-3`
+      + `3.628 137.209" style="fill:none;fill-rule:evenodd;stroke:none" transform="translate(-3.325 -25`
+      + `.15)"/><radialGradient id="${id}g" cx=".5" cy=".5" r=".5" fx="${x1}" fy="${y1}">`
+      + `<stop offset="0%" stop-color="${colour1}"/><stop offset=".5" stop-color="${colour2 ? colour2 : colour1}"`
+      + ` stop-opacity="100"><animate attributeName="offset" dur="5s" repeatCount="indefinite" `
+      + `values=".4;.7;.4"/></stop><stop offset="100%" stop-color="#fff" stop-opacity="0"/>`
+      + `</radialGradient>${colour3 ? `<radialGradient id="${id}g2" cx=".5" cy=".5" r=".5" fx="${x2}" fy="${y2}"><stop offset="0%" stop-color="${colour3}"/><stop offset="70%" stop-color="#fff" stop-opacity="0"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>` : ""}`
+      + `${colour4 ? `<radialGradient id="${id}g3" cx=".5" cy=".5" r=".5" fx="${x3}" fy="${y3}"><stop offset="0%" stop-color="${colour4}"/><stop offset="60%" stop-color="#fff" stop-opacity="0"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>` : ""}`
+      + `</defs><rect width="210" height="210" fill="url(#${id}g)" rx="15" ry="15"/>`
+      + `${colour3 ? `<rect width="210" height="210" fill="url(#${id}g2)" rx="15" ry="15"/>` : ""}`
+      + `${colour4 ? `<rect width="210" height="210" fill="url(#${id}g3)" rx="15" ry="15"/>` : ""}`
+      + `<text fill="#1d1f20" font-family="monospace" font-size="6" letter-spacing="1"><textPath xml:space="preserve" href="#${id}p">${startingText}</textPath></text></svg>`
   return svg;
 }
 
-export const buildDeathSvg = (id, x1, y1, x2, y2, x3, y3, colour1, colour2, colour3, colour4, startingText) => {
-  const svg = `<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg viewBox="0 0 210 210"`
-  +` version="1.1" id="svg1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">`
-  + `<defs>
-      <radialGradient id="${id}-Gradient" cx="0.5" cy="0.5" r="0.5" fx="${x1}" fy="${y1}">
-        <stop offset="0%" stop-color="${colour1}" />
-        <stop offset=".5" stop-color="${colour2}" stop-opacity="100">
-          <animate attributeName="offset" values=".5;.6;.5" dur="5s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="100%" stop-color="white" stop-opacity="0"/>
-      </radialGradient>
-      ${colour3 ? `<radialGradient id="${id}-Gradient2" cx="0.5" cy="0.5" r="0.5" fx="${x2}" fy="${y2}">
-      <stop offset="0%" stop-color="${colour3}" />
-      <stop offset="70%" stop-color="white" stop-opacity="0"/>
-      <stop offset="100%" stop-color="white" stop-opacity="0"/>
-    </radialGradient>` : ""}
-      ${colour4 ? `<radialGradient id="${id}-Gradient3" cx="0.5" cy="0.5" r="0.5" fx="${x3}" fy="${y3}">
-      <stop offset="0%" stop-color="${colour4}" />
-      <stop offset="60%" stop-color="white" stop-opacity="0"/>
-      <stop offset="100%" stop-color="white" stop-opacity="0"/>
-    </radialGradient>` : ""}
-    </defs>
-      <rect x="0" y="0" rx="15" ry="15" width="210" height="210" fill="url(#${id}-Gradient)" stroke="none" />
-      ${colour3 ? `<rect x="0" y="0" rx="15" ry="15" width="210" height="210" fill="url(#${id}-Gradient2)" stroke="none" />` : ""}
-      ${colour4 ? `<rect x="0" y="0" rx="15" ry="15" width="210" height="210" fill="url(#${id}-Gradient3)" stroke="none" />` : ""}
-      
-      <text font-family="monospace" letter-spacing="1" font-size="6" fill="white" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">Lifeform #${startingText}</text>  
-  </svg>
-  `
+export const buildDeathSvg = (id, x1, y1, x2, y2, x3, y3, colour3, tokenId) => {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 210"><defs>`
+  + `<radialGradient id="${id}g" cx="0.5" cy="0.5" r="0.5" fx="${x1}" fy="${y1}"><stop offset="0%" stop-color="1"/><stop offset=".5" stop-color="1" stop-opacity="100"><animate attributeName="offset" dur="5s" repeatCount="indefinite" values=".5;.6;.5"/></stop><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>`
+  + `<radialGradient id="${id}g2" cx="0.5" cy="0.5" r="0.5" fx="${x2}" fy="${y2}"><stop offset="0%" stop-color="${colour3}"/><stop offset="70%" stop-color="#fff" stop-opacity="0"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>`
+  + `<radialGradient id="${id}g3" cx="0.5" cy="0.5" r="0.5" fx="${x3}" fy="${y3}"><stop offset="0%" stop-color="1"/><stop offset="60%" stop-color="#fff" stop-opacity="0"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>`
+  + `</defs><rect width="210" height="210" fill="url(#${id}g)" rx="15" ry="15"/>`
+  + `<rect width="210" height="210" fill="url(#${id}g2)" rx="15" ry="15"/>`
+  + `<rect width="210" height="210" fill="url(#${id}g3)" rx="15" ry="15"/>`
+  + `<text x="50%" y="50%" fill="#fff" dominant-baseline="middle" font-family="monospace" font-size="6" letter-spacing="1" text-anchor="middle">Lifeform #${tokenId}</text></svg>`
   return svg;
 }

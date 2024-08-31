@@ -56,11 +56,12 @@ const packageSVG = async (m, msg) => {
     return word === 'Killer' || word === 'Forgetful'
   });
   const seed = await web3.utils.soliditySha3(m.address, m.createdCount, m.killedCount, m.distributions)
-  const svg = generateMemoriesSVG(seed, interactions-minuspatterns.length+pluspatterns.length, generateName(seed));
+  const svg = generateMemoriesSVG(seed, interactions-minuspatterns.length+pluspatterns.length, msg);
+  console.log(svg)
   return svg;
 }
 
-const generateMetadata = async (address, msg, memoryform, svg) => {
+const generateMetadata = async (address, memoryform, svg) => {
   const json = await getJSON(address, svg, memoryform.carePatterns, memoryform.memoryformlifeforms);
   console.log(json)
   return `data:application/json;base64,${base64json.stringify(json, null, 2)}`;
@@ -91,7 +92,7 @@ const get = async (req, res) => {
       carePatterns,
       memoryformlifeforms
     } = memoryform;
-    let svg = await packageSVG(memoryform);
+    let svg = await packageSVG(memoryform, "");
     try {
       if (req.query.svg) {
         res.writeHead(200, {
@@ -132,8 +133,8 @@ const create = async (req, res) => {
     if (!memoryform) {
       return respondWithError(res, { message: "Unauthorized" }, httpStatus.UNAUTHORIZED);
     }
-    const svg = await packageSVG(memoryform);
-    const metadata = await generateMetadata(req.body.address, req.body.msg, memoryform, svg);
+    const svg = await packageSVG(memoryform, req.body.msg);
+    const metadata = await generateMetadata(req.body.address, memoryform, svg);
     console.log(metadata)
     const nonce = await incrementInRedis(memoryformsNonceName);
     const auth = await generateAuth(
@@ -141,9 +142,9 @@ const create = async (req, res) => {
       req.body.address,
       nonce
     );
-    //console.log(metadata)
-    //console.log(svg)
-    console.log(req.body.address)
+    memoryform.message = req.body.msg;
+    memoryform.approveForExhibition = req.body.approve;
+    await memoryform.save();
     return respondWithSuccess(res, {
       auth,
       metadata,

@@ -5,6 +5,7 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import methodOverride from "method-override";
+import { errors } from "celebrate";
 
 import router from "./routes";
 import db from "./database";
@@ -51,8 +52,8 @@ app.use(
       new RegExp(`.${off.hostname}`, "i"),
       lifeforms.hostname,
       new RegExp(`.${lifeforms.hostname}`, "i"),
-      // dev.hostname,
-      // new RegExp(`.${dev.hostname}`, "i"),
+      dev.hostname,
+      new RegExp(`.${dev.hostname}`, "i"),
       wildcards.hostname,
       new RegExp(`.${wildcards.hostname}`, "i"),
       mirrors.hostname,
@@ -70,6 +71,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(errors());
 
 // Configure HTTP headers / CSP
 app.use(

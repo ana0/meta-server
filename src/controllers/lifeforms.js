@@ -46,7 +46,7 @@ const get = async (req, res) => {
       where: { tokenId: req.params.id },
     });
     if (lifeform) {
-      const {
+      let {
         name,
         description,
         tokenId,
@@ -59,6 +59,19 @@ const get = async (req, res) => {
         minTransfers,
         archetypes
       } = lifeform;
+      if (req.params.id === "1") {
+        name = metadata1.name;
+        description = metadata1.description;
+        image = metadata1.image;
+      } else if (req.params.id === "2") {
+        name = metadata2.name;
+        description = metadata2.description;
+        image = metadata2.image
+      } else if (req.params.id === "3") {
+        name = metadata3.name;
+        description = metadata3.description;
+        image = metadata3.image;
+      } 
       return respondWithSuccess(
         res,
         {

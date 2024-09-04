@@ -35,7 +35,14 @@ const Memoryform = db.define("memoryform", {
   },
   carePatterns: {
     type: DataTypes.ARRAY(DataTypes.STRING),
-  }
+  },
+  message: {
+    type: DataTypes.TEXT,
+  },
+  approveForExhibition: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
 });
 
 export default Memoryform;

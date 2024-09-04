@@ -10,8 +10,6 @@ async function uploadDocuments(req, res, next) {
   try {
     const files = req.files[FIELD_NAME];
 
-    console.log(req.body);
-
     // Move all files to /uploads folder to make them public
     for (let file of files) {
       await copyToUploadsDir(file.path, file.filename, RECORDINGS_SUBFOLDER);

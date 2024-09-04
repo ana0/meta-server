@@ -10,6 +10,9 @@ import Lifeform from "../models/lifeform";
 import { getMessageHash } from "../services/contracts/charon";
 import { incrementInRedis } from "../services/redis";
 import { deathformsNonceName } from "../services/nonce";
+import {
+  LifeformHasManyMemoryformLifeform
+ } from "../database/associations";
 
 const generateAuth = async (metadata, address, nonce) => {
   const msg = await getMessageHash(metadata, address, nonce);
@@ -18,16 +21,31 @@ const generateAuth = async (metadata, address, nonce) => {
 
 const getJSON = async (svg, archetypes, tokenId, birth, msg) => {
   let traits = []
-  const deltatime = (Date.now()/1000) - birth;
-  const days = Math.floor(deltatime / 86400);
-  const hours = Math.floor((deltatime - days * 86400) / 3600);
+  const deltatime = Date.now() - Number(birth);
+  const days = Math.floor(deltatime / 86400000);
+  const hours = Math.floor((deltatime - days * 86400000) / 3600000);
+  const parsedBirth = new Date(Number(birth));
+  const now = Date.now()
   //const seconds = Math.floor(deltatime - ageDays * 86400 - ageHours * 3600);
   archetypes.forEach(item => {
     traits.push(`{"trait_type":"Archetype","value":"${item}"}`)
   })
-  console.log(traits)
-  return `{"status":"ok","name":" Deathform #${tokenId}","description":"This is the resting place of Lifeform #${tokenId}, which was born on ${Date.parse(birth)} and crossed the bridge on ${Date.now()} at the age of ${days} days, and ${hours} hours.","image":"${svg64(svg)}",`
+  let punctuation;
+  msg = msg.trim();
+  if (msg === '') {
+    punctuation = '';
+  } else {
+    punctuation = msg.endsWith('.') || msg.endsWith('?') || msg.endsWith('!') ? '' : '.';
+    traits.push(`{"trait_type":"Message","value":"${msg}${punctuation}"}`)
+  }
+  const json = `{"status":"ok","name":" Deathform #${tokenId}",` +
+  `"description":"This is the resting place of Lifeform #${tokenId}, which was born on` +
+  ` ${parsedBirth.toDateString()} and crossed the bridge ` +
+  ` on ${new Date(now).toDateString()} at the age of ${days} days, and ${hours} hours. ` +
+  `Rest in Peace, Lifeform #${tokenId}.",` +
+  `"image":"${svg64(svg)}",` 
   +`"attributes":[${traits.join()}]}`
+  return json;
 }
 
 const packageSVG = async (tokenId) => {
@@ -36,16 +54,19 @@ const packageSVG = async (tokenId) => {
   return svg;
 }
 
-const generateMetadata = async (address, msg, lifeform, svg) => {
+const generateMetadata = async (msg, lifeform, svg) => {
   const json = await getJSON(svg, lifeform.archetypes, lifeform.tokenId, lifeform.birth, msg);
-  console.log(json)
-  return `data:application/json;base64,${base64json.stringify(json, null, 2)}`;
+  return `data:application/json;base64,${base64json.stringify(JSON.parse(json), null, 2)}`;
 };
 
 const get = async (req, res) => {
   try {
     const lifeform = await Lifeform.findOne({
       where: { tokenId: req.params.id },
+      include: [{
+        association: LifeformHasManyMemoryformLifeform,
+        include: 'memoryform'
+      }],
     });
     if (lifeform) {
       let svg = await packageSVG(parseInt(req.params.id));
@@ -67,7 +88,8 @@ const get = async (req, res) => {
         totalCaretakers,
         totalTransfers,
         minTransfers,
-        archetypes
+        archetypes,
+        memoryformlifeforms
       } = lifeform;
       return respondWithSuccess(
         res,
@@ -83,6 +105,7 @@ const get = async (req, res) => {
           totalTransfers,
           minTransfers,
           archetypes,
+          memoryformlifeforms,
           svg
         },
         httpStatus.OK,
@@ -91,7 +114,6 @@ const get = async (req, res) => {
     }
     return respondWithError(res, { message: "No such lifeform" }, httpStatus.NOT_FOUND);
   } catch (err) {
-    console.log(req.params.id);
     console.log(err);
     return respondWithError(res, { message: "Unidentified err" }, httpStatus.INTERNAL_SERVER_ERROR);
   };
@@ -105,17 +127,17 @@ const create = async (req, res) => {
     if (!lifeform) {
       return respondWithError(res, { message: "Unauthorized" }, httpStatus.UNAUTHORIZED);
     }
-    const svg = await packageSVG(lifeform);
-    const metadata = await generateMetadata(req.body.address, req.body.msg, lifeform, svg);
-    //console.log(metadata)
+    const svg = await packageSVG(lifeform.tokenId);
+    const metadata = await generateMetadata(req.body.msg, lifeform, svg);
     const nonce = await incrementInRedis(deathformsNonceName);
-    console.log(req.body.address)
+    console.log(nonce);
     const auth = await generateAuth(
       metadata,
       req.body.address,
       nonce
     );
-    //console.log(svg)
+    lifeform.message = req.body.msg;
+    await lifeform.save();
     return respondWithSuccess(res, {
       auth,
       metadata,

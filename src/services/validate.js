@@ -5,6 +5,5 @@ export default function validate(schema) {
     abortEarly: false,
     debug: process.env.NODE_ENV !== "production",
   };
-
   return celebrate(schema, joiOptions);
 }

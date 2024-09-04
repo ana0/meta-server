@@ -8,6 +8,7 @@ import metadata1 from "../static/1.json";
 import metadata2 from "../static/2.json";
 import metadata3 from "../static/3.json";
 
+
 const ZERO_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
 const get = async (req, res) => {
@@ -46,7 +47,7 @@ const get = async (req, res) => {
       where: { tokenId: req.params.id },
     });
     if (lifeform) {
-      const {
+      let {
         name,
         description,
         tokenId,
@@ -57,8 +58,21 @@ const get = async (req, res) => {
         totalCaretakers,
         totalTransfers,
         minTransfers,
-        archetypes
+        archetypes,
       } = lifeform;
+      if (req.params.id === "1") {
+        name = metadata1.name;
+        description = metadata1.description;
+        image = metadata1.image;
+      } else if (req.params.id === "2") {
+        name = metadata2.name;
+        description = metadata2.description;
+        image = metadata2.image
+      } else if (req.params.id === "3") {
+        name = metadata3.name;
+        description = metadata3.description;
+        image = metadata3.image;
+      } 
       return respondWithSuccess(
         res,
         {
@@ -72,7 +86,7 @@ const get = async (req, res) => {
           totalCaretakers,
           totalTransfers,
           minTransfers,
-          archetypes
+          archetypes,
         },
         httpStatus.OK,
         false
@@ -80,7 +94,6 @@ const get = async (req, res) => {
     }
     return respondWithError(res, { message: "No such lifeform" }, httpStatus.NOT_FOUND);
   } catch (err) {
-    console.log(req.params.id);
     console.log(err);
     return respondWithError(res, { message: "Unidentified err" }, httpStatus.INTERNAL_SERVER_ERROR);
   }

@@ -47,6 +47,9 @@ const Lifeform = db.define("lifeform", {
   },
   archetypes: {
     type: DataTypes.ARRAY(DataTypes.STRING),
+  },
+  message: {
+    type: DataTypes.TEXT,
   }
 });
 

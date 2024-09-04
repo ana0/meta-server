@@ -59,7 +59,7 @@ const packageSVG = async (m, msg) => {
 
 const generateMetadata = async (address, memoryform, svg) => {
   const json = await getJSON(address, svg, memoryform.carePatterns, memoryform.memoryformlifeforms);
-  return `data:application/json;base64,${base64json.stringify(JSON.parse(json), null, 2)}`;
+  return `data:application/json;base64,${base64json.stringify(JSON.parse(json), null, 0)}`;
 };
 
 const getMemoryform = async (address) => {

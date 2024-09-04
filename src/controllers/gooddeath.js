@@ -56,7 +56,7 @@ const packageSVG = async (tokenId) => {
 
 const generateMetadata = async (msg, lifeform, svg) => {
   const json = await getJSON(svg, lifeform.archetypes, lifeform.tokenId, lifeform.birth, msg);
-  return `data:application/json;base64,${base64json.stringify(JSON.parse(json), null, 2)}`;
+  return `data:application/json;base64,${base64json.stringify(JSON.parse(json), null, 0)}`;
 };
 
 const get = async (req, res) => {

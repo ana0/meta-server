@@ -9,7 +9,7 @@ import {
   MemoryformHasManyMemoryformLifeform,
   MemoryformLifeformBelongsToLifeform,
  } from "../database/associations";
- import { generateMemoriesSVG, generateName } from "../services/procGen";
+ import { generateMemoriesSVG } from "../services/procGen";
  import { ethereumWeb3, memoryformsController } from "../services/web3";
  import { getMessageHash } from "../services/contracts/memoryforms";
  import { incrementInRedis } from "../services/redis";
@@ -21,8 +21,7 @@ const generateAuth = async (metadata, address, nonce) => {
 };
 
 const getJSON = async (address, svg, careP, mlifeforms) => {
-  let traits = [`{"trait_type":"Address","value":"${address}"}`]
-  console.log(traits)
+  let traits = []
   careP.forEach(item => {
     if (item == 'Creator' || item == 'Killer') {
       traits.push(`{"value":"${item}"}`)
@@ -30,9 +29,7 @@ const getJSON = async (address, svg, careP, mlifeforms) => {
       traits.push(`{"trait_type":"Care Pattern","value":"${item}"}`)
     }
   })
-  console.log(traits)
   for (let i = 0; i < mlifeforms.length; i++) {
-    console.log(mlifeforms[i])
     traits.push(`{"trait_type":"Cared For","value":"Lifeform #${mlifeforms[i].lifeform.tokenId}","type":"number"}`)
     
     mlifeforms[i].lifeform.archetypes.forEach(item => {
@@ -57,14 +54,12 @@ const packageSVG = async (m, msg) => {
   });
   const seed = await web3.utils.soliditySha3(m.address, m.createdCount, m.killedCount, m.distributions)
   const svg = generateMemoriesSVG(seed, interactions-minuspatterns.length+pluspatterns.length, msg);
-  console.log(svg)
   return svg;
 }
 
 const generateMetadata = async (address, memoryform, svg) => {
   const json = await getJSON(address, svg, memoryform.carePatterns, memoryform.memoryformlifeforms);
-  console.log(json)
-  return `data:application/json;base64,${base64json.stringify(json, null, 2)}`;
+  return `data:application/json;base64,${base64json.stringify(JSON.parse(json), null, 2)}`;
 };
 
 const getMemoryform = async (address) => {
@@ -90,9 +85,10 @@ const get = async (req, res) => {
       distributions,
       uniqueDistributions,
       carePatterns,
-      memoryformlifeforms
+      memoryformlifeforms,
+      message
     } = memoryform;
-    let svg = await packageSVG(memoryform, "");
+    let svg = await packageSVG(memoryform, message);
     try {
       if (req.query.svg) {
         res.writeHead(200, {
@@ -123,7 +119,6 @@ const get = async (req, res) => {
       return respondWithError(res, { message: "Unspecifed Err" }, httpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-  console.log(memoryform)
   return respondWithError(res, { message: "No carer data" }, httpStatus.NOT_FOUND);
 };
 
@@ -135,8 +130,8 @@ const create = async (req, res) => {
     }
     const svg = await packageSVG(memoryform, req.body.msg);
     const metadata = await generateMetadata(req.body.address, memoryform, svg);
-    console.log(metadata)
     const nonce = await incrementInRedis(memoryformsNonceName);
+    console.log(nonce)
     const auth = await generateAuth(
       metadata,
       req.body.address,

@@ -107,7 +107,6 @@ export const chooseColour = (seed, beginSlice, endSlice) => {
 
 export const generateMemoriesSVG = (seed, interactions, msg) => {
   const max = parseInt("ffffffffff", 16);
-  console.log(msg);
   const id = seed.slice(2, 12);
   const x1 = scale(normalize(parseInt(seed.slice(2, 12), 16), max, 0), 0.7, 0.3);
   const y1 = scale(normalize(parseInt(seed.slice(10, 20), 16), max, 0), 0.7, 0.3);
@@ -143,9 +142,7 @@ export const generateMemoriesSVG = (seed, interactions, msg) => {
       fourth = chooseColour(seed, f, f+10).hex;
     }
   }
-  const startingText = `${msg ? msg  : ''}                                                                                                                        ${generateName(seed)}`;
-  console.log(x1, y1, x2, y2, x3, y3, first, second, third, fourth, startingText);
-  //return buildSvg(x1, y1, x2, y2, first, second, third, fourth, startingText);
+  const startingText = `${msg ? msg  : ''}`;
   return buildMemoriesSvg(id, x1, y1, x2, y2, x3, y3, first, second, third, fourth, startingText);
 }
 
@@ -199,7 +196,7 @@ export const buildDeathSvg = (id, x1, y1, x2, y2, x3, y3, colour3, tokenId) => {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 210"><defs>`
   + `<radialGradient id="${id}g" cx="0.5" cy="0.5" r="0.5" fx="${x1}" fy="${y1}"><stop offset="0%" stop-color="1"/><stop offset=".5" stop-color="1" stop-opacity="100"><animate attributeName="offset" dur="5s" repeatCount="indefinite" values=".5;.6;.5"/></stop><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>`
   + `<radialGradient id="${id}g2" cx="0.5" cy="0.5" r="0.5" fx="${x2}" fy="${y2}"><stop offset="0%" stop-color="${colour3}"/><stop offset="70%" stop-color="#fff" stop-opacity="0"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>`
-  + `<radialGradient id="${id}g3" cx="0.5" cy="0.5" r="0.5" fx="${x3}" fy="${y3}"><stop offset="0%" stop-color="1"/><stop offset="60%" stop-color="#fff" stop-opacity="0"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>`
+  + `<radialGradient id="${id}g3" cx="0.5" cy="0.5" r="0.5" fx="${x3}" fy="${y3}"><stop offset="0%" stop-color="1"/><stop offset="60%" stop-color="#fff" stop-opacity="0"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>`
   + `</defs><rect width="210" height="210" fill="url(#${id}g)" rx="15" ry="15"/>`
   + `<rect width="210" height="210" fill="url(#${id}g2)" rx="15" ry="15"/>`
   + `<rect width="210" height="210" fill="url(#${id}g3)" rx="15" ry="15"/>`

@@ -92,7 +92,8 @@ const get = async (req, res) => {
         false
       );
     } else {
-      const seed = await getSeed(req.params.id);
+      const tokenId = req.params.id;
+      const seed = await getSeed(tokenId);
       if (seed === ZERO_HASH) {
         return respondWithError(res, { message: "No such lifeform" }, httpStatus.NOT_FOUND);
       }

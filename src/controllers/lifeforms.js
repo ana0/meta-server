@@ -91,8 +91,28 @@ const get = async (req, res) => {
         httpStatus.OK,
         false
       );
+    } else {
+      const seed = await getSeed(req.params.id);
+      if (seed === ZERO_HASH) {
+        return respondWithError(res, { message: "No such lifeform" }, httpStatus.NOT_FOUND);
+      }
+      const lifeform = {
+        tokenId,
+        name: `Lifeform #${tokenId}`,
+        description: generateName(seed),
+        image: chooseImage(seed),
+        alive: true,
+      };
+      await Lifeform.create(lifeform);
+      return respondWithSuccess(
+        res,
+        {
+          ...lifeform,
+        },
+        httpStatus.OK,
+        false
+      );
     }
-    return respondWithError(res, { message: "No such lifeform" }, httpStatus.NOT_FOUND);
   } catch (err) {
     console.log(err);
     return respondWithError(res, { message: "Unidentified err" }, httpStatus.INTERNAL_SERVER_ERROR);
@@ -128,6 +148,7 @@ const mint = async (req, res) => {
     name: `Lifeform #${tokenId}`,
     description: generateName(seed),
     image: chooseImage(seed),
+    alive: true,
   };
   await Lifeform.create(lifeform);
   return respondWithSuccess(

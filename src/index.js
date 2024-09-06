@@ -43,7 +43,7 @@ const lifeforms = new URL("https://lifeforms.supply");
 const wildcards = new URL("https://wildcard.supply");
 const mirrors = new URL("https://mirrorpiece.isthisa.com");
 const gooddeath = new URL("https://gooddeath.lifeforms.supply");
-const dev = new URL("http://localhost:3000");
+//const dev = new URL("http://localhost:3000");
 
 app.use(
   cors({

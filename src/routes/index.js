@@ -9,6 +9,7 @@ import uploadsRouter from "./uploads";
 import memoryformsRouter from "./memoryforms";
 import gooddeathRouter from "./gooddeath";
 import lickworksRouter from "./lickworks";
+import entriesRouter from "./entries";
 import { respondWithSuccess } from "../helpers/respond";
 import APIError from "../helpers/errors";
 
@@ -33,6 +34,8 @@ router.use("/memoryforms", memoryformsRouter);
 router.use("/gooddeath", gooddeathRouter);
 
 router.use("/lickworks", lickworksRouter);
+
+router.use("/entries", entriesRouter);
 
 router.use(() => {
   throw new APIError(httpStatus.NOT_FOUND);

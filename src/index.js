@@ -44,6 +44,9 @@ const wildcards = new URL("https://wildcard.supply");
 const mirrors = new URL("https://mirrorpiece.isthisa.com");
 const gooddeath = new URL("https://gooddeath.lifeforms.supply");
 const dev = new URL("http://localhost:3000");
+const tracking = process.env.TRACKING_ORIGIN
+  ? new URL(process.env.TRACKING_ORIGIN)
+  : null;
 
 app.use(
   cors({
@@ -60,12 +63,16 @@ app.use(
       new RegExp(`.${mirrors.hostname}`, "i"),
       gooddeath.hostname,
       new RegExp(`.${gooddeath.hostname}`, "i"),
+      ...(tracking
+        ? [tracking.hostname, new RegExp(`.${tracking.hostname}`, "i")]
+        : []),
     ],
     allowedHeaders: [
       "Authorization",
       "Content-Length",
       "Content-Type",
       "Origin",
+      "X-Auth-Token",
     ],
     methods: ["GET", "PUT", "POST", "DELETE"],
     credentials: true,

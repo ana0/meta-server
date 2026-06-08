@@ -1,9 +1,20 @@
+import crypto from "crypto";
 import httpStatus from "http-status";
-import { Op } from "sequelize";
 
 import Entry from "../models/entry";
-import { fetchDailyReadiness, OuraError } from "../services/oura";
+import {
+  buildAuthorizeUrl,
+  exchangeCodeForToken,
+  fetchDailyReadiness,
+  isConnected,
+  OuraError,
+  OuraNotConnectedError,
+} from "../services/oura";
+import { setInRedis, getFromRedis, expireFromRedis } from "../services/redis";
 import { respondWithSuccess, respondWithError } from "../helpers/respond";
+
+const OURA_STATE_PREFIX = "oura_oauth_state_";
+const OURA_STATE_TTL = 600; // seconds
 
 const FIELDS = [
   "date",
@@ -121,10 +132,7 @@ const exportCsv = async (req, res) => {
       lines.push(header.map((k) => csvEscape(e[k])).join(","));
     }
     res.setHeader("Content-Type", "text/csv; charset=utf-8");
-    res.setHeader(
-      "Content-Disposition",
-      'attachment; filename="entries.csv"'
-    );
+    res.setHeader("Content-Disposition", 'attachment; filename="entries.csv"');
     return res.status(httpStatus.OK).send(`${lines.join("\n")}\n`);
   } catch (err) {
     console.log(err);
@@ -169,6 +177,13 @@ const syncOura = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
+    if (err instanceof OuraNotConnectedError) {
+      return respondWithError(
+        res,
+        { message: "Oura is not connected — click Connect Oura first." },
+        httpStatus.BAD_REQUEST
+      );
+    }
     if (err instanceof OuraError) {
       return respondWithError(
         res,
@@ -180,9 +195,68 @@ const syncOura = async (req, res) => {
   }
 };
 
+const ouraStatus = async (req, res) => {
+  try {
+    return respondWithSuccess(res, { connected: await isConnected() });
+  } catch (err) {
+    console.log(err);
+    return respondWithError(res, { message: err.message });
+  }
+};
+
+// Returns the Oura authorize URL for the browser to navigate to. A random state
+// nonce is stashed in Redis and verified on the callback to prevent CSRF.
+const ouraAuthorizeUrl = async (req, res) => {
+  try {
+    const state = crypto.randomBytes(16).toString("hex");
+    await setInRedis(`${OURA_STATE_PREFIX}${state}`, "1", "EX", OURA_STATE_TTL);
+    return respondWithSuccess(res, { url: buildAuthorizeUrl(state) });
+  } catch (err) {
+    console.log(err);
+    return respondWithError(res, { message: err.message });
+  }
+};
+
+const frontendRedirect = (status) => {
+  const origin = (process.env.TRACKING_ORIGIN || "").replace(/\/+$/, "");
+  return origin ? `${origin}/?oura=${status}` : null;
+};
+
+// Public endpoint Oura redirects the browser to after authorization. It carries
+// no app password, so it is guarded by the state nonce instead of trackingAuth.
+const ouraCallback = async (req, res) => {
+  try {
+    const { code, state, error } = req.query;
+    if (error) throw new Error(String(error));
+    if (!code || !state) throw new Error("Missing code or state");
+    const key = `${OURA_STATE_PREFIX}${state}`;
+    const found = await getFromRedis(key);
+    if (!found) throw new Error("Invalid or expired state");
+    await expireFromRedis(key);
+    await exchangeCodeForToken(String(code));
+    const target = frontendRedirect("connected");
+    if (target) return res.redirect(target);
+    return res
+      .status(httpStatus.OK)
+      .send(
+        "<h1>Oura connected</h1><p>You can close this tab and return to the app.</p>"
+      );
+  } catch (err) {
+    console.log(err);
+    const target = frontendRedirect("error");
+    if (target) return res.redirect(target);
+    return res
+      .status(httpStatus.BAD_GATEWAY)
+      .send(`<h1>Oura connection failed</h1><p>${err.message}</p>`);
+  }
+};
+
 export default {
   upsert,
   list,
   exportCsv,
   syncOura,
+  ouraStatus,
+  ouraAuthorizeUrl,
+  ouraCallback,
 };
